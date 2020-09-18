@@ -459,7 +459,12 @@ vcfR@fix[1:10,1:8]
 vcfR@gt[1:10,1:2]
 
 #generate popmap file. Two column popmap with the same format as stacks, and the columns must be named 'id' and 'pop'
-popmap<-data.frame(id=colnames(vcfR@gt)[2:length(colnames(vcfR@gt))],pop=substr(colnames(vcfR@gt)[2:length(colnames(vcfR@gt))], 3,11))
+#popmap<-data.frame(id=colnames(vcfR@gt)[2:length(colnames(vcfR@gt))],pop=substr(colnames(vcfR@gt)[2:length(colnames(vcfR@gt))], 3,11))
+#read in locality info for samples
+locs<-read.csv("~/Desktop/aph.data/rad.sampling.csv")
+popmap<-data.frame(id=locs$id, pop=locs$species)
+#rename mislabeled sample
+colnames(vcfR@gt)[colnames(vcfR@gt) == "A_californica_334171"]<-"A_woodhouseii_334171"
 ```
 
 #step 1: Implement quality filters that don't involve missing data. This is because removing low data samples will alter percentage/quantile based missing data cutoffs, so we wait to implement those until after deciding on our final set of samples for downstream analysis
