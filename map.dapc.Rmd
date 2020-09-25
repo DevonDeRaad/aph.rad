@@ -27,8 +27,6 @@ locs<-read.csv("~/Desktop/aph.data/rad.sampling.csv")
 #fix mislabeled sample
 locs$id<-as.character(locs$id)
 locs$id[locs$id == "A_californica_334171"]<-"A_woodhouseii_334171"
-locs<-locs[c(1:19,21:56,20,57:95),]
-locs[56,5]<-"woodhouseii"
 
 #read in vcf
 vcfR <- read.vcfR("~/Desktop/aph.data/filtered.vcf.gz")
@@ -42,6 +40,8 @@ gen<-gen[c(1:19,21:56,20,57:95),]
 
 #subset locs to include only samples that passed filtering, and have been retained in the vcf
 locs<-locs[locs$id %in% gen@ind.names,]
+locs<-locs[c(1:19,21:56,20,57:95),]
+locs[56,5]<-"woodhouseii"
 
 table(locs$species)
 table(locs$subspecies)
@@ -239,27 +239,6 @@ ggtree(tree)+
 ```
 
 ```{r}
-#read in locality info for samples
-locs<-read.csv("~/Desktop/aph.data/rad.sampling.csv")
-#fix mislabeled sample
-locs$id<-as.character(locs$id)
-locs$id[locs$id == "A_californica_334171"]<-"A_woodhouseii_334171"
-locs<-locs[c(1:19,21:56,20,57:95),]
-locs[56,5]<-"woodhouseii"
-
-#read in vcf
-vcfR <- read.vcfR("~/Desktop/aph.data/filtered.vcf.gz")
-#fix mislabeled sample
-colnames(vcfR@gt)[colnames(vcfR@gt) == "A_californica_334171"]<-"A_woodhouseii_334171"
-
-#convert to genlight
-gen<- vcfR2genlight(vcfR)
-#reorder gen
-gen<-gen[c(1:19,21:56,20,57:95),]
-
-#subset locs to include only samples that passed filtering, and have been retained in the vcf
-locs<-locs[locs$id %in% gen@ind.names,]
-
 #subset genlight to only western scrub jays
 wood.gen<-new("genlight",(as.matrix(gen)[locs$species == "californica" | locs$species == "woodhouseii" | locs$species == "sumichrasti", ]))
 #subset loc info
