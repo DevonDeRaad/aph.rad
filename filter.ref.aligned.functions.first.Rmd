@@ -474,7 +474,7 @@ Jon Puritz has an excellent filtering tutorial that is focused specifically on f
 Some of these RAD specific filters can't be applied to a vcf output by stacks, which doesn't retain metadata like mapping quality and strand, but we can follow these guidelines for hard filtering (he suggests minimum depth=3, gq =30), and can implement suggested filters like allele balance and max depth, here in R.
 ```{r}
 #hard filter to minimum depth of 5, and minimum genotype quality of 30
-vcfR<-hard.filter.vcf(vcfR=vcfR, depth = 3, gq = 30)
+vcfR<-hard.filter.vcf(vcfR=vcfR, depth = 5, gq = 30)
 ```
 
 Use this function to filter for allele balance
@@ -512,7 +512,7 @@ On the flip side of that coin, you may have designed a project to get informatio
 missing.by.sample(vcfR=vcfR, popmap = popmap)
 
 #run function to drop samples above the threshold we want from the vcf
-vcfR<-missing.by.sample(vcfR=vcfR, cutoff = .93)
+vcfR<-missing.by.sample(vcfR=vcfR, cutoff = .91)
 
 #subset popmap to only include retained individuals
 popmap<-popmap[popmap$id %in% colnames(vcfR@gt),]
