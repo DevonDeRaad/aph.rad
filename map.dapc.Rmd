@@ -91,22 +91,26 @@ knitr::include_graphics(c("/Users/devder/Desktop/cali.png","/Users/devder/Deskto
 ```
 
 
-```{r}
+```{r, fig.height = 6, fig.width = 8, fig.align = "center"}
 knitr::include_graphics(c("/Users/devder/Desktop/bic.png"))
 #Do dapc and choose groups
 #K=5
 #assign samples to the number of groups present in popmap, retain all PCAs
 #grp<-find.clusters(gen)
 #set manually the values I chose based on looking at the scree plots
-grp<-find.clusters(gen, n.pca=94, n.clust=5)
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length = n + 1)
+  hcl(h = hues, l = 65, c = 100)[1:n]
+}
 
+grp<-find.clusters(gen, n.pca=94, n.clust=5)
 #run dapc, retain all discriminant axes, and enough PC axes to explain 75% of variance
 #dapc1<-dapc(gen, grp$grp)
 #set manually the values I chose from scree plots
 dapc1<-dapc(gen, grp$grp, n.da = 5, n.pca =6)
 
 #plot compoplot
-compoplot(dapc1, legend=FALSE, show.lab =TRUE, cex.names=.4)
+compoplot(dapc1, legend=FALSE, show.lab =TRUE, cex.names=.4, col=gg_color_hue(5))
 #
 post<-as.data.frame(dapc1$posterior)
 post$id<-rownames(post)
@@ -125,7 +129,7 @@ grp<-find.clusters(gen, n.pca=94, n.clust=6)
 #set manually the values I chose from scree plots
 dapc1<-dapc(gen, grp$grp, n.da = 6, n.pca =7)
 #plot compoplot
-compoplot(dapc1, legend=FALSE, show.lab =TRUE, cex.names=.4)
+compoplot(dapc1, legend=FALSE, show.lab =TRUE, cex.names=.4, col=gg_color_hue(6))
 #
 post<-as.data.frame(dapc1$posterior)
 post$id<-rownames(post)
@@ -144,7 +148,7 @@ grp<-find.clusters(gen, n.pca=94, n.clust=7)
 #set manually the values I chose from scree plots
 dapc1<-dapc(gen, grp$grp, n.da = 7, n.pca =8)
 #plot compoplot
-compoplot(dapc1, legend=FALSE, show.lab =TRUE, cex.names=.4)
+compoplot(dapc1, legend=FALSE, show.lab =TRUE, cex.names=.4, col=gg_color_hue(7))
 #
 post<-as.data.frame(dapc1$posterior)
 post$id<-rownames(post)
@@ -163,7 +167,7 @@ grp<-find.clusters(gen, n.pca=94, n.clust=8)
 #set manually the values I chose from scree plots
 dapc1<-dapc(gen, grp$grp, n.da = 8, n.pca =9)
 #plot compoplot
-compoplot(dapc1, legend=FALSE, show.lab =TRUE, cex.names=.4)
+compoplot(dapc1, legend=FALSE, show.lab =TRUE, cex.names=.4, col=gg_color_hue(8))
 #
 post<-as.data.frame(dapc1$posterior)
 post$id<-rownames(post)
@@ -182,7 +186,7 @@ grp<-find.clusters(gen, n.pca=94, n.clust=9)
 #set manually the values I chose from scree plots
 dapc1<-dapc(gen, grp$grp, n.da = 9, n.pca =10)
 #plot compoplot
-compoplot(dapc1, legend=FALSE, show.lab =TRUE, cex.names=.4)
+compoplot(dapc1, legend=FALSE, show.lab =TRUE, cex.names=.4, col=gg_color_hue(9))
 #
 post<-as.data.frame(dapc1$posterior)
 post$id<-rownames(post)
@@ -197,9 +201,9 @@ ggplot()+
 
 ```
 
-```{r}
+```{r, fig.height=8, fig.width=8}
 #calculate divergence btwn samples
-gen@pop<-grp$grp
+gen@pop<-locs$subspecies
 inds<-stamppNeisD(gen, pop = FALSE)
 
 #plot tree colored by subspecies
@@ -219,7 +223,7 @@ for (i in levels(as.factor(col.vec))){
   col.vec[col.vec == i]<-cols[j]
   j<-j+1
 }
-col.vec<-col.vec[c(1:19,57,20:56,58:95)]
+#col.vec<-col.vec[c(1:19,57,20:56,58:95)]
 
 #plot map colored by subspecies
 ggplot()+
@@ -238,7 +242,7 @@ ggtree(tree)+
   geom_tiplab(cex=2)
 ```
 
-```{r}
+```{r, fig.height = 6, fig.width = 8, fig.align = "center"}
 #subset genlight to only western scrub jays
 wood.gen<-new("genlight",(as.matrix(gen)[locs$species == "californica" | locs$species == "woodhouseii" | locs$species == "sumichrasti", ]))
 #subset loc info
@@ -247,7 +251,7 @@ wood.locs<-droplevels(wood.locs)
 #plot map of woodfornia colored by subspecies
 ggplot()+
   geom_polygon(data = pac, aes(x=long, y = lat, group = group), fill="grey", col="black", cex=.1)+
-  coord_sf(xlim = c(-120, -95), ylim = c(15, 45)) + 
+  coord_sf(xlim = c(-125, -95), ylim = c(15, 48)) + 
   geom_point(data = wood.locs, aes(x = decimallongitude, y = decimallatitude, col=subspecies), alpha =.9, size=3, show.legend=TRUE,
                           position = position_jitter(width = 0.3, height = 0.3)) +
   theme_classic()+
@@ -265,13 +269,9 @@ wood.pca.scores$subspecies<-wood.locs$subspecies
 #ggplot color by subspecies
 ggplot(wood.pca.scores, aes(x=PC1, y=PC2, color=subspecies)) +
   geom_point(cex = 2)
-
-#ggplot PC3 and PC4
-ggplot(wood.pca.scores, aes(x=PC3, y=PC4, color=subspecies)) +
-  geom_point(cex = 2)
 ```
 
-```{r}
+```{r, fig.height = 6, fig.width = 8, fig.align = "center"}
 #subset genlight to only california scrub jays
 cali.gen<-new("genlight",(as.matrix(gen)[locs$species == "californica", ]))
 #subset loc info
@@ -300,8 +300,8 @@ ggplot(cali.pca.scores, aes(x=PC1, y=PC2, color=cali.locs$subspecies)) +
 
 #test IBD
 cali.gen@pop<-cali.locs$subspecies
-inds<-stamppNeisD(cali.gen, pop = FALSE)
-inds<-as.dist(inds)
+cali.inds<-stamppNeisD(cali.gen, pop = FALSE)
+cali.inds<-as.dist(cali.inds)
 #
 cali.coords<-data.frame(Long=cali.locs$decimallongitude, Lat=cali.locs$decimallatitude)
 
@@ -310,13 +310,15 @@ cali.Dgeo <- as.dist(distm(cali.coords, fun=distGeo))
 cali.Dgeo<-cali.Dgeo/1000
 
 #run ibd test
-IBD <- mantel.randtest(cali.Dgeo,inds)
-IBD
-plot(cali.Dgeo,inds, pch=20,cex=1.5, ylab = "Nei's Genetic Distance", xlab = "Geographic Distance (km)")
-abline(lm(inds~cali.Dgeo), lty = 2)
+IBD.cali <- mantel.randtest(cali.Dgeo,cali.inds)
+IBD.cali
+#make tidy df with IBD data
+ibd.df<-data.frame(species=rep("california", times=length(cali.inds)),geo.d=as.numeric(cali.Dgeo),gen.d=as.numeric(cali.inds))
+#plot(cali.Dgeo,cali.inds, pch=20,cex=1.5, ylab = "Nei's Genetic Distance", xlab = "Geographic Distance (km)")
+#abline(lm(cali.inds~cali.Dgeo), lty = 2)
 ```
 
-```{r}
+```{r, fig.height = 6, fig.width = 8, fig.align = "center"}
 #subset genlight to only woodhouse scrub jays
 woodhouse.gen<-new("genlight",(as.matrix(gen)[locs$species == "woodhouseii" | locs$species == "sumichrasti", ]))
 #subset loc info
@@ -331,7 +333,7 @@ woodhouse.pca.scores<-as.data.frame(woodhouse.pca$scores)
 #plot map of woodhousefornia colored by subspecies
 ggplot()+
   geom_polygon(data = pac, aes(x=long, y = lat, group = group), fill="grey", col="black", cex=.1)+
-  coord_sf(xlim = c(-125, -105), ylim = c(20, 50)) + 
+  coord_sf(xlim = c(-120, -95), ylim = c(15, 45)) + 
   geom_point(data = woodhouse.locs, aes(x = decimallongitude, y = decimallatitude, col=subspecies), alpha =.9, size=3, show.legend=TRUE, position = position_jitter(width = 0.3, height = 0.3)) +
   theme_classic()+
   guides(colour = guide_legend(override.aes = list(size = 4), order=1, label.theme = element_text(face = "italic")),
@@ -343,34 +345,73 @@ ggplot(woodhouse.pca.scores, aes(x=PC1, y=PC2, color=woodhouse.locs$subspecies))
   geom_point(cex = 2)
 
 #test IBD
-wood.gen@pop<-wood.locs$subspecies
-inds<-stamppNeisD(wood.gen, pop = FALSE)
+woodhouse.gen@pop<-woodhouse.locs$subspecies
+inds<-stamppNeisD(woodhouse.gen, pop = FALSE)
 inds<-as.dist(inds)
 #
-wood.coords<-data.frame(Long=wood.locs$decimallongitude, Lat=wood.locs$decimallatitude)
+woodhouse.coords<-data.frame(Long=woodhouse.locs$decimallongitude, Lat=woodhouse.locs$decimallatitude)
 
 #indica make dist matrix convert to km distance
-wood.Dgeo <- as.dist(distm(wood.coords, fun=distGeo))
+wood.Dgeo <- as.dist(distm(woodhouse.coords, fun=distGeo))
 wood.Dgeo<-wood.Dgeo/1000
 
 #run ibd test
 IBD <- mantel.randtest(wood.Dgeo,inds)
 IBD
-plot(wood.Dgeo,inds, pch=20,cex=1.5, ylab = "Nei's Genetic Distance", xlab = "Geographic Distance (km)")
-abline(lm(inds~wood.Dgeo), lty = 2)
+#make tidy df with IBD data
+wood.ibd.df<-data.frame(species=rep("woodhouse", times=length(inds)),geo.d=as.numeric(wood.Dgeo),gen.d=as.numeric(inds))
+
+#subset genlight to only interior woodhouse scrub jays
+int.wood.gen<-new("genlight",(as.matrix(gen)[locs$species == "woodhouseii" & locs$subspecies != "texana", ]))
+#subset loc info
+int.woodhouse.locs<-locs[locs$species == "woodhouseii" & locs$subspecies != "texana", ]
+#test IBD
+int.wood.gen@pop<-int.woodhouse.locs$subspecies
+int.inds<-stamppNeisD(int.wood.gen, pop = FALSE)
+int.inds<-as.dist(int.inds)
+#
+int.woodhouse.coords<-data.frame(Long=int.woodhouse.locs$decimallongitude, Lat=int.woodhouse.locs$decimallatitude)
+
+#indica make dist matrix convert to km distance
+int.wood.Dgeo <- as.dist(distm(int.woodhouse.coords, fun=distGeo))
+int.wood.Dgeo<-int.wood.Dgeo/1000
+int.wood.Dgeo<-as.dist(int.wood.Dgeo)
+
+#run ibd test
+IBD <- mantel.randtest(int.wood.Dgeo,int.inds)
+IBD
+#make df
+int.wood.ibd<-data.frame(species=rep("interior woodhouse", times=length(int.inds)),geo.d=as.numeric(int.wood.Dgeo),gen.d=as.numeric(int.inds))
+#combine dfs
+ibdf<-rbind.data.frame(ibd.df,wood.ibd.df,int.wood.ibd)
+#plot
+ggplot(ibdf, aes(x=geo.d, y=gen.d, color=species))+
+  geom_point(alpha=.3, cex=2)+
+  geom_smooth(method=lm, se=FALSE, fullrange=TRUE)+
+  theme_classic()+
+  labs(x="geographic distance (km)", y="Nei's genetic distance")
+#plot(wood.Dgeo,inds, pch=20,cex=1.5, ylab = "Nei's Genetic Distance", xlab = "Geographic Distance (km)")
+#abline(lm(inds~wood.Dgeo), lty = 2)
 ```
 
-```{r}
+```{r, fig.height = 6, fig.width = 8, fig.align = "center"}
 #calc heterozygosity and make df for plotting
 gen.mat<-as.matrix(gen)
 loci<-rowSums(is.na(gen.mat) == FALSE)
 het<-rowSums(gen.mat == 1, na.rm = TRUE)/loci
-het.df<-data.frame(id=locs$id,subspecies=locs$subspecies,het=het)
+het.df<-data.frame(id=locs$id,subspecies=locs$subspecies,species=locs$species,het=het)
 
 #plot heterozygosity as violin plots for each subspecies
 ggplot(het.df, aes(x=subspecies, y=het)) + 
-    geom_violin(trim=FALSE)+
-    geom_dotplot(binaxis='y', stackdir='center', dotsize = .5)+
+  geom_violin(trim=FALSE)+
+  geom_dotplot(binaxis='y', stackdir='center', dotsize = .35, alpha=.6)+
+  theme_classic()+
+  theme(axis.text.x = element_text(face = "italic", angle = 45, hjust = 1))
+
+#plot heterozygosity as violin plots for each species
+ggplot(het.df, aes(x=species, y=het)) + 
+  geom_violin(trim=FALSE)+
+  geom_dotplot(binaxis='y', stackdir='center', dotsize = .35, alpha=.6)+
   theme_classic()+
   theme(axis.text.x = element_text(face = "italic", angle = 45, hjust = 1))
 

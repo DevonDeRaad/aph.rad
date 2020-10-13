@@ -457,6 +457,12 @@ vcfR <- read.vcfR("~/Desktop/aph.data/populations.snps.vcf")
 vcfR
 vcfR@fix[1:10,1:8]
 vcfR@gt[1:10,1:2]
+#randomly downsample SNPs in the vcf
+#vcfd<-vcfR[sample(1:nrow(vcfR), 20000),]
+#randomly downsamples samples in the vcf
+#vcfd@gt<- vcfd@gt[,sample(colnames(vcfd@gt), 20)]
+#export
+#write.vcf(vcfd, "~/Desktop/aph.data/downsampled.vcf.gz")
 
 #generate popmap file. Two column popmap with the same format as stacks, and the columns must be named 'id' and 'pop'
 #popmap<-data.frame(id=colnames(vcfR@gt)[2:length(colnames(vcfR@gt))],pop=substr(colnames(vcfR@gt)[2:length(colnames(vcfR@gt))], 3,11))
