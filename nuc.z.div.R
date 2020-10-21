@@ -121,3 +121,10 @@ pop(wood.gen.nuc)<-wood.locs$subspecies
 nuc.fst<-stamppFst(wood.gen.nuc)
 nuc.fst$Fsts
 
+
+write.table(gen@ind.names[locs$species == "insularis"], "island.txt", row.names = F, col.names = F, quote=F)
+write.table(gen@ind.names[locs$subspecies == "texana"], "texas.txt", row.names = F, col.names = F, quote=F)
+write.table(gen@ind.names[locs$species == "sumichrasti"], "sumi.txt", row.names = F, col.names = F, quote=F)
+write.table(gen@ind.names[locs$species == "californica"], "cali.txt", row.names = F, col.names = F, quote=F)
+write.table(gen@ind.names[locs$species == "woodhouseii"], "wood.txt", row.names = F, col.names = F, quote=F)
+
