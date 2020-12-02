@@ -1,6 +1,10 @@
 library(tidyr)
+library(dplyr)
+
 #Fst comparisons
 setwd("~/Desktop/aph.data/")
+recomb.map<-read.table("ZF.recomb.map.txt", header=T)
+
 cali.wood<-read.table("cali.wood.weir.fst", header=T)
 cali.island<-read.table("cali.island.weir.fst", header=T)
 wood.sumi<-read.table("wood.sumi.weir.fst", header=T)
@@ -14,7 +18,6 @@ fsts$comp<-c(rep("cali.wood",times=nrow(cali.wood)),
 
 fsts$WEIR_AND_COCKERHAM_FST[fsts$WEIR_AND_COCKERHAM_FST < 0]<-0
 
-
 ggplot(fsts, aes(WEIR_AND_COCKERHAM_FST, colour = comp)) +
   geom_freqpoly()+
   theme_classic()
@@ -26,8 +29,6 @@ ggplot(fsts, aes(WEIR_AND_COCKERHAM_FST, fill = comp)) +
 ggplot(fsts, aes(WEIR_AND_COCKERHAM_FST, after_stat(density), colour = comp)) +
   geom_freqpoly(bins=50)+
   theme_classic()
-
-
 
 
 ca<-fsts[fsts$comp == "cali.wood",]
@@ -118,7 +119,7 @@ ggplot(ca, aes(x = BPcum, y =WEIR_AND_COCKERHAM_FST,
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(size = 8, vjust = 0.5))
 #
-ggsave("ca.wood.manhattan.png", units="in", width=6, height=1.5, dpi=300)
+#ggsave("ca.wood.manhattan.png", units="in", width=6, height=1.5, dpi=300)
 
 ca$nuc<-NA
 ca$nuc[ca$chrom != "Z"]<-"nuclear"
@@ -153,6 +154,8 @@ legend("topright",
        horiz = F , 
        inset = c(0.1, 0.1))
 dev.off()
+
+ca<-ca[is.na(ca$WEIR_AND_COCKERHAM_FST) == FALSE,]
 fst.chrom<-aggregate(ca$WEIR_AND_COCKERHAM_FST, list(ca$chrom), mean)
 table(ca$chrom)
 #subset to only chroms > 10 SNPs
@@ -169,7 +172,88 @@ ggplot(fst.chrom, aes(x=log(length), y=x, color=gen))+
   geom_smooth(method=lm, se=FALSE, fullrange=TRUE, lty=2)+
   theme_classic()+
   labs(x="log chromosome length", y="mean Fst")+
-  theme(legend.title = element_blank())+
+  theme(legend.title = element_blank(), text = element_text(size=14))+
   guides(color = guide_legend(override.aes = list(linetype = 0)))
 
+table(ca$chrom[ca$WEIR_AND_COCKERHAM_FST > .8])
+
+recomb.map$left_snp<-as.numeric(as.character(recomb.map$left_snp))
+recomb.map$right_snp<-as.numeric(as.character(recomb.map$right_snp))
+recomb.map<-recomb.map[is.na(recomb.map$right_snp) == FALSE,]
+
+#map recombination rate onto the Fsts we already calculated
+caz<-ca[ca$chrom %in% recomb.map$chr,]
+caz$chrom<-droplevels(caz$chrom)
+recomb.map<-recomb.map[recomb.map$chr %in% ca$chrom,]
+recomb.map$chr<-droplevels(recomb.map$chr)
+recomb.map$mean<-as.numeric(as.character(recomb.map$mean))
+z<-NULL
+for (i in 1:nrow(caz)){
+  if(length(recomb.map$mean[recomb.map$chr == caz$chrom[i] & recomb.map$left_snp < caz$POS[i] & recomb.map$right_snp > caz$POS[i] ]) == 0){
+    z[i]<-NA
+  }
+  else{
+    z[i]<-recomb.map$mean[recomb.map$chr == caz$chrom[i] & recomb.map$left_snp < caz$POS[i] & recomb.map$right_snp > caz$POS[i] ]
+  }
+}
+
+caz$recomb<-z
+car<-caz[is.na(caz$recomb) == FALSE,]
+plot(car$recomb, car$WEIR_AND_COCKERHAM_FST, xlim=c(0,1))
+points(car$recomb[car$chrom == "Z"],car$WEIR_AND_COCKERHAM_FST[car$chrom == "Z"], col="red")
+cor.test(car$recomb, car$WEIR_AND_COCKERHAM_FST)
+ggplot(car, aes(x=recomb, y=WEIR_AND_COCKERHAM_FST, col=nuc))+
+  geom_point(alpha=.3, cex=2.5)+
+  scale_color_manual(values = c("black","red"))+
+  theme_classic()+
+  geom_smooth(method=lm,  linetype="dashed",
+              color="darkred", fill="grey")
+
+
+
+
+
+
+#read in locality info for samples
+locs<-read.csv("~/Desktop/aph.data/rad.sampling.csv")
+#fix mislabeled sample
+locs$id<-as.character(locs$id)
+locs$id[locs$id == "A_californica_334171"]<-"A_woodhouseii_334171"
+
+#subset locs to include only samples that passed filtering, and have been retained in the vcf
+locs<-locs[locs$id %in% gen@ind.names,]
+locs<-locs[c(1:19,21:56,20,57:95),]
+locs[56,5]<-"woodhouseii"
+
+table(locs$species)
+table(locs$subspecies)
+
+#split df by species
+spec.dfs<-split(locs, locs$species)
+
+#init sampling.df which will be a df of samples grouped by unique lat/long
+sampling.df<-data.frame(NULL)
+for (i in names(spec.dfs)){
+  samps<-spec.dfs[[i]] %>% group_by(decimallatitude, decimallongitude) %>% summarize(count=n())
+  df<-cbind(rep(i, times=nrow(samps)), samps)
+  sampling.df<-as.data.frame(rbind(sampling.df, df))
+}
+#fix colnames
+colnames(sampling.df)<-c("species","lat","long","count")
+
+caw<-sampling.df[c(1:13,18:23,26:32),]
+#make full map
+pac<-map_data("world")
+#
+ggplot()+
+  geom_polygon(data = pac, aes(x=long, y = lat, group = group), fill="grey", col="black", cex=.1)+
+  coord_sf(xlim = c(-123, -97), ylim = c(19, 45)) + 
+  geom_point(data = caw, aes(x = long, y = lat, col=species, size=count), alpha =.5, show.legend=TRUE) +
+  theme_void()+
+  scale_color_manual(values=c("navy","forestgreen"))+
+  scale_size_continuous(range = c(2,8))+
+  guides(colour = guide_legend(override.aes = list(size = 4), order=1, label.theme = element_text(face = "italic")),
+         size = guide_legend(nrow = 1, order = 2))+
+  theme(legend.position = c(0.01, 0.01), legend.justification = c(0.01, 0.01), legend.background=element_blank(), text = element_text(size=14))
+#plot map colored by species
 
