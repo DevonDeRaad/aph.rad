@@ -1,0 +1,99 @@
+---
+title: "scrub.gmyc"
+author: "Devon DeRaad"
+date: "1/2/2021"
+output: html_document
+---
+
+```{r}
+library(rncl)
+strict.tr <- read_nexus_phylo("~/Desktop/aph.data/bgmyc/strict.consensus")
+ig.tr <- read_nexus_phylo("~/Desktop/aph.data/bgmyc/tvmig.consensus")
+constant.tr <- read_nexus_phylo("~/Desktop/aph.data/bgmyc/constant.consensus")
+```
+
+```{r}
+library(splits)
+#strict.gmyc <- gmyc(strict.tr)
+#ig.gmyc <- gmyc(ig.tr)
+#constant.gmyc <- gmyc(constant.tr)
+#relaxed tree did not converge so will not be used for bGMYC
+```
+
+```{r}
+#summary(strict.gmyc)
+#plot(strict.gmyc)
+#
+#summary(relaxed.gmyc)
+#plot(relaxed.gmyc)
+#
+#summary(constant.gmyc)
+#plot(constant.gmyc)
+
+```
+
+```{r}
+#strict.support <- gmyc.support(strict.gmyc)        # estimate support
+#is.na(strict.support[strict.support == 0]) <- TRUE # only show values for affected nodes
+#plot(strict.tr, cex=.6, no.margin=TRUE)          # plot the tree
+#nodelabels(round(strict.support, 2), cex=.7, frame = "none")     # plot the su
+```
+
+```{r}
+#Do BGMYC for the strict tvm + g tree
+library(bGMYC)
+#strict.trees<-read.nexus(file="~/Desktop/aph.data/bgmyc/strict.trees")
+#result.single<-bgmyc.singlephy(strict.trees[[1]], mcmc=50000, burnin=1, thinning=10, t1=2, t2=95, start=c(1,1,25))
+#plot(result.single)
+#tvmg.multi<-bgmyc.multiphylo(strict.trees[900:1000], mcmc=50000, burnin=40000, thinning=100)
+# Save an object to a file
+#saveRDS(tvmg.multi, file = "~/Desktop/aph.data/bgmyc/tvmg.multi.rds")
+# Restore the object
+tvmg.multi<-readRDS(file = "~/Desktop/aph.data/bgmyc/tvmg.multi.rds")
+plot.multibgmyc(tvmg.multi)
+#tvmg.spec<-bgmyc.spec(tvmg.multi)
+tvmg.probmat<-spec.probmat(tvmg.multi)
+plot.bgmycprobmat(tvmg.probmat, strict.tr)
+bgmyc.point(tvmg.probmat, ppcutoff = .5)
+bgmyc.point(tvmg.probmat, ppcutoff = .05)
+
+```
+
+```{r}
+#Do BGMYC for the strict tvm + i + g tree
+ig.trees<-read.nexus(file="~/Desktop/aph.data/bgmyc/tvmig.trees")
+#result.single<-bgmyc.singlephy(strict.trees[[1]], mcmc=50000, burnin=1, thinning=10, t1=2, t2=95, start=c(1,1,25))
+#plot(result.single)
+#tvmig.multi<-bgmyc.multiphylo(ig.trees[900:1000], mcmc=50000, burnin=40000, thinning=100)
+# Save an object to a file
+#saveRDS(tvmig.multi, file = "~/Desktop/aph.data/bgmyc/tvmig.multi.rds")
+# Restore the object
+tvmig.multi<-readRDS(file = "~/Desktop/aph.data/bgmyc/tvmig.multi.rds")
+plot.multibgmyc(tvmig.multi)
+#tvmig.spec<-bgmyc.spec(tvmig.multi)
+tvmig.probmat<-spec.probmat(tvmig.multi)
+plot.bgmycprobmat(tvmig.probmat, ig.tr)
+bgmyc.point(tvmig.probmat, ppcutoff = .5)
+bgmyc.point(tvmig.probmat, ppcutoff = .05)
+bgmyc.point(tvmig.probmat, ppcutoff = .25)
+
+```
+
+```{r}
+#Do BGMYC for the constant coalescent tnv + g tree
+library(bGMYC)
+constant.trees<-read.nexus(file="~/Desktop/aph.data/bgmyc/constant.trees")
+#result.single<-bgmyc.singlephy(strict.trees[[1]], mcmc=50000, burnin=1, thinning=10, t1=2, t2=95, start=c(1,1,25))
+#plot(result.single)
+#constant.multi<-bgmyc.multiphylo(constant.trees[900:1000], mcmc=50000, burnin=40000, thinning=100)
+# Save an object to a file
+#saveRDS(constant.multi, file = "~/Desktop/aph.data/bgmyc/constant.multi.rds")
+# Restore the object
+constant.multi<-readRDS(file = "~/Desktop/aph.data/bgmyc/constant.multi.rds")
+plot.multibgmyc(constant.multi)
+#constant.spec<-bgmyc.spec(constant.multi)
+constant.probmat<-spec.probmat(constant.multi)
+plot.bgmycprobmat(constant.probmat, constant.tr)
+bgmyc.point(constant.probmat, ppcutoff = .5)
+bgmyc.point(constant.probmat, ppcutoff = .05)
+```

@@ -1,0 +1,272 @@
+---
+title: "species.trees"
+author: "Devon DeRaad"
+date: "12/23/2020"
+output: html_document
+---
+
+```{r setup}
+library(vcfR)
+library(ggplot2)
+library(adegenet)
+library(StAMPP)
+library(dplyr)
+gg_color_hue<- function(n) {
+  hues = seq(15, 375, length = n + 1)
+  hcl(h = hues, l = 65, c = 100)[1:n]
+}
+
+#prepare for delimitr
+#read in vcf
+vcfR<- read.vcfR("~/Desktop/aph.data/unlinked.filtered.recode.vcf")
+vcfR@gt<-vcfR@gt[,c(1,21,48:96)]
+#write.table(cbind(colnames(vcfR@gt)[-1],
+#      c(rep(3, times=19),5,rep(3, times=8),rep(4, times=4),rep(1, times=6),rep(2, times=8),10,10,
+#        rep(9, times=5),10,10,10,rep(5, times=17),rep(6, times=7),7,7,8,8,8,8,7,8,8,7,7,7,8,8,7)),
+#      "~/Downloads/pops.txt", row.names = F, quote = F, col.names = F)
+#write.table(cbind(colnames(vcfR@gt)[-1],
+#      c("intwood","sumi","sumi", rep("sumi", times=5),"sumi","sumi","sumi",rep("intwood", times=17),rep("texas", times=7),rep("mex", times=15))),
+#      "~/Downloads/pops.txt", row.names = F, quote = F, col.names = F)
+#write.vcf(vcfR, "~/Downloads/woodhouse.unlinked.filtered.vcf.gz")
+#make traits file
+int<-c()
+for (i in 1:28){
+  int[i]<-paste0("int",i)
+}
+sumi<-c()
+for (i in 1:16){
+  sumi[i]<-paste0("sumi",i)
+}
+tex<-c()
+for (i in 1:10){
+  tex[i]<-paste0("tex",i)
+}
+mex<-c()
+for (i in 1:26){
+  mex[i]<-paste0("mex",i)
+}
+
+d<-data.frame(traits=c(int,sumi,tex,mex),
+           species=c(rep(0, times=28),rep(1, times=16),rep(2, times=10),rep(3, times=26)))
+#write.table(d,"~/Downloads/scrub.traits.txt", row.names = F, quote = F, col.names = T)
+#  		fla: 33-38,
+#  		isl: 39-46,
+#  		cal: 1-19 21-28,
+#  		calbaja: 29-32,
+#  		intwood: 20 57-73,
+#  		texas: 74-80,
+#  		southmex: 81 82 87 90-92 95,
+#  		northmex: 83-86 88 89 93 94,
+#  		remota: 49-53,
+#  		sumi: 47 48 54-56;
+
+```
+
+```{r}
+#convert to genlight
+vcfR<- read.vcfR("~/Desktop/aph.data/unlinked.filtered.recode.vcf")
+gen<- vcfR2genlight(vcfR)
+#reorder gen to match species assignments
+gen<-gen[c(33:46,1:19,21:32,57:73,81:95,20,74:80,47:56),]
+
+#read in locality info for samples
+locs<-read.csv("~/Desktop/aph.data/rad.sampling.csv")
+#subset locs to include only samples that passed filtering, and have been retained in the vcf
+locs<-locs[locs$id %in% gen@ind.names,]
+#order by species assingments
+locs<-locs[c(33:46,1:19,21:32,57:73,81:95,20,74:80,47:56),]
+rownames(locs)<-1:95
+#combine lat/longs for nearby sampling localities 
+locs[20,c(2,3)]<-locs[21,c(2,3)]
+locs[34,c(2,3)]<-locs[37,c(2,3)]
+locs[43,c(2,3)]<-locs[44,c(2,3)]
+locs[79,c(2,3)]<-locs[80,c(2,3)]
+locs[70,c(2,3)]<-locs[68,c(2,3)]
+locs[71,c(2,3)]<-locs[68,c(2,3)]
+locs[74,c(2,3)]<-locs[64,c(2,3)]
+
+locs$species<-as.character(locs$species)
+locs[c(79:85),4]<-c(rep("texana", times=7))
+locs$species<-as.factor(locs$species)
+
+#add sampling locality to locs df
+locs$number<-c(rep(26, times=6),rep(11, times=8),rep(10, times=5),rep(8, times=4),rep(7, times=2),
+               rep(9, times=3),rep(6, times=5),4,5,5,4,4,rep(3, times=3),2,1,1,2,14,14,13,13,13,
+               12,12,12,15,15,18,17,17,17,16,16,16,23,23,20,21,21,21,22,21,21,22,22,23,20,20,22,
+               18,rep(19, times=7),25,25,rep(24, times=5),25,25,25)
+loc.frame<-locs[,c(1,10)]
+
+table(locs$species)
+table(locs$decimallatitude)
+#split df by species
+spec.dfs<-split(locs, locs$species)
+
+#init sampling.df which will be a df of samples grouped by unique lat/long
+sampling.df<-data.frame(NULL)
+for (i in names(spec.dfs)){
+  samps<-spec.dfs[[i]] %>% dplyr::group_by(decimallatitude, decimallongitude) %>% dplyr::summarize(count=n())
+  df<-cbind(rep(i, times=nrow(samps)), samps)
+  sampling.df<-as.data.frame(rbind(sampling.df, df))
+}
+#fix colnames
+colnames(sampling.df)<-c("species","lat","long","count")
+
+#use only currently recognized species
+sampling.df$species[13:15]<-c("woodhouseii","woodhouseii","woodhouseii")
+
+#make full map
+pac<-map_data("world")
+#
+ggplot()+
+  geom_polygon(data = pac, aes(x=long, y = lat, group = group), fill="grey90", col="black", cex=.1)+
+  coord_sf(xlim = c(-123, -80), ylim = c(14, 47)) + 
+  geom_point(data = sampling.df, aes(x = long, y = lat, col=species, size=count), alpha =.8, show.legend=TRUE) +
+  theme_classic()+
+  geom_text(data = sampling.df, aes(x = long, y = lat, label = c(1:10,26,11,25,24,19,23,22,21,20,18,17,14,13,12,16,15)),size = 3)+
+  scale_color_manual(values=gg_color_hue(4))+
+  scale_size_continuous(range = c(4,8))+
+  guides(colour = guide_legend(override.aes = list(size = 4), order=1, label.theme = element_text(face = "italic")),
+         size = guide_legend(nrow = 1, order = 2))+
+  theme(legend.position = c(0.01, 0.01), legend.justification = c(0.01, 0.01),
+        legend.background = element_blank())+
+  xlab("longitude")+
+  ylab("latitude")
+#ggsave("~/Desktop/aph.data/sampling.map.pdf", width=8.5,height=6)
+```
+
+```{r}
+pop(gen)<-gen@ind.names
+sample.div <- stamppNeisD(gen, pop = TRUE)
+#plot NJ tree
+plot(nj(sample.div), type = "unrooted", cex = .65)
+#export in phylip format for splitstree
+names<-rownames(sample.div)
+setwd("~/Downloads")
+cat("95\n",file="scrub.splits.txt")
+cat("\n",file="scrub.splits.txt", append = T)
+for (i in 1:nrow(sample.div)){
+  cat(c(names[i],sample.div[i,]),file="scrub.splits.txt", sep=" ",append=TRUE)
+  cat("\n",file="scrub.splits.txt",append=TRUE)
+}
+
+#all samples splitstree
+knitr::include_graphics(c("/Users/devder/Desktop/aph.data/scrub.splits.labeled.by.locality.png"))
+
+```
+
+```{r}
+#SVDquartets
+#steps:
+#export an unlinked, filtered vcf file
+#convert it to a nexus using this ruby script: https://github.com/mmatschiner/tutorials/blob/master/species_tree_inference_with_snp_data/src/convert_vcf_to_nexus.rb
+#ruby convert_vcf_to_nexus.rb unlinked.filtered.recode.vcf unlinked.filtered.nex
+
+#use cat to append a taxablock to the end of the nexus that is formatted like this:
+#BEGIN SETS;
+#  	TAXPARTITION SPECIES =
+#  		fla: 33-38,
+#  		isl: 39-46,
+#  		cal: 1-19 21-28,
+#  		calbaja: 29-32,
+#  		intwood: 20 57-73,
+#  		texas: 74-80,
+#  		southmex: 81 82 87 90-92 95,
+#  		northmex: 83-86 88 89 93 94,
+#  		remota: 49-53,
+#  		sumi: 47 48 54-56;
+#  END;
+
+#cat unlinked.filtered.nex taxablock.txt > unlinked.filtered.taxa.nex
+
+#open the nexus in PAUP* GUI and designate Florida Scrub-Jay samples as outgroup.
+#run SVDquartets with 100 bootstrap replicates using species tree assignments
+#visualize in figtree
+
+#check out species tree produced by SVDquartets from 2725 unlinked SNPs
+knitr::include_graphics("/Users/devder/Desktop/aph.data/svd.quartets.labeled.png")
+
+#Total wieght of incompatible quartets = 73.6396 (35.07%)
+#Total wieght of compatible quartets = 136.3557 (64.93%)
+
+```
+
+
+```{r}
+#do pairwise Fst between groups to determine the set of species assignments to give delimitr
+#investigate how divergent pops are
+locs$pop<-locs$number
+locs$number<-as.numeric(locs$number)
+locs$pop[locs$number >= 3 & locs$number<= 10]<-"ca"
+locs$pop[locs$number >= 1 & locs$number<= 2]<-"bajaca"
+locs$pop[locs$number >= 12 & locs$number <= 18]<-"intwood"
+locs$pop[locs$number == 20 | locs$number == 21]<-"northmex"
+locs$pop[locs$number == 22 | locs$number == 23]<-"southmex"
+
+gen@pop<-as.factor(locs$pop)
+
+heat<-stamppFst(gen)
+colnames(heat)<-rownames(heat)
+h<-heat$Fsts
+for (i in 1:10){
+  h[1:i,i]<-h[i,1:i]
+}
+colnames(h)<-c("26", "11", "3-10", "1-2", "12-18", "22-23", "20-21", "19", "25", "24")
+rownames(h)<-c("26", "11", "3-10", "1-2", "12-18", "22-23", "20-21", "19", "25", "24")
+
+di.heat <- reshape::melt(h)
+
+ggplot(data = di.heat, aes(x=X1, y=X2, fill=value)) + 
+  geom_tile()+
+  geom_text(aes(label = round(value, 3))) +
+  scale_fill_gradient2(low = "white", high = "red", space = "Lab", name="Fst") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x=element_blank(), axis.title.y=element_blank())
+  
+#combine N mex and S mex
+locs$pop[locs$number >=20 & locs$number <= 23]<-"mex"
+gen@pop<-as.factor(locs$pop)
+heat<-stamppFst(gen)
+heat$Fsts
+
+#combine Mex and interior woodhouse
+locs$pop[locs$pop == "intwood"]<-"mex"
+gen@pop<-as.factor(locs$pop)
+heat<-stamppFst(gen)
+heat$Fsts
+
+#combine ca and bajaca
+locs$pop[locs$pop == "bajaca"]<-"ca"
+gen@pop<-as.factor(locs$pop)
+heat<-stamppFst(gen)
+heat$Fsts
+
+#combine sumi and remota
+locs$pop[locs$pop == "24"]<-"25"
+gen@pop<-as.factor(locs$pop)
+heat<-stamppFst(gen)
+heat$Fsts
+
+#combine 19 and mex
+locs$pop[locs$pop == "19"]<-"mex"
+gen@pop<-as.factor(locs$pop)
+heat<-stamppFst(gen)
+heat$Fsts
+
+
+#show delimitr species delimitation results on svdquartets tree
+
+```
+
+
+```{r}
+#visualize raxml tree
+knitr::include_graphics("/Users/devder/Downloads/phylo.meth.fig2.png")
+
+```
+
+```{r}
+#show BEAST2 tree
+knitr::include_graphics("/Users/devder/Desktop/beast2.tmv.ig.png")
+
+```
+
