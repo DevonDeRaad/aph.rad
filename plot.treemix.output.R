@@ -1,5 +1,5 @@
 
-#make map.txt for converting vcf into treemix file
+#make popmap for converting vcf into treemix file using stacks
 vcfR <- read.vcfR("~/Desktop/aph.data/unzipped.filtered.vcf")
 samps<-colnames(vcfR@gt)[2:96]
 pops<-gsub("A_","",samps)

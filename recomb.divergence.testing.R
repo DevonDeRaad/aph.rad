@@ -1,3 +1,4 @@
+library(ggplot2)
 library(tidyr)
 library(dplyr)
 
@@ -20,7 +21,13 @@ fsts$WEIR_AND_COCKERHAM_FST[fsts$WEIR_AND_COCKERHAM_FST < 0]<-0
 
 ggplot(fsts, aes(WEIR_AND_COCKERHAM_FST, colour = comp)) +
   geom_freqpoly()+
-  theme_classic()
+  theme_classic()+
+  xlab("Fst")+
+  scale_color_discrete(name = "comparison", labels = c("californica/insularis",
+                                                      "californica/woodhouseii",
+                                                      "woodhouseii/sumichrasti",
+                                                      "woodhouseii/texana"))
+  
 
 ggplot(fsts, aes(WEIR_AND_COCKERHAM_FST, fill = comp)) +
   geom_histogram(bins=50)+
@@ -119,11 +126,16 @@ car<-caz[is.na(caz$recomb) == FALSE,]
 #ca.wood
 cor.test(log(car$recomb), car$ca.wood.fst)
 ggplot(car, aes(x=log(recomb), y=ca.wood.fst, col=nuc))+
-  geom_point(alpha=.3, cex=2.5)+
-  scale_color_manual(values = c("black","red"))+
+  geom_point(alpha=.25, cex=2.5)+
   theme_classic()+
   geom_smooth(method=lm,  linetype="dashed",
-              color="darkred", fill="grey")
+              color="black", fill="grey")+
+  scale_color_manual(values = c("#00BFC4","#F8766D"),
+                       name = "genomic position",
+                       labels = c("autosome", "Z chromosome"))+
+  ylab("Fst californica-woodhouseii")+xlab("log recombination rate")
+  
+
 
 #ca.island
 cor.test(log(car$recomb), car$ca.island.fst)

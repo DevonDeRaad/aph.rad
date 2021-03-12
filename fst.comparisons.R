@@ -22,6 +22,15 @@ ggplot(fsts, aes(WEIR_AND_COCKERHAM_FST, colour = comp)) +
   geom_freqpoly()+
   theme_classic()
 
+ggplot(fsts, aes(WEIR_AND_COCKERHAM_FST, colour = comp)) +
+  geom_freqpoly()+
+  theme_classic()+
+  xlab("Fst")+
+  scale_color_discrete(name = "comparison", labels = c("californica/insularis",
+                                                    "californica/woodhouseii",
+                                                  "woodhouseii/sumichrasti",
+                                                "woodhouseii/texana"))
+
 ggplot(fsts, aes(WEIR_AND_COCKERHAM_FST, fill = comp)) +
   geom_histogram(bins=50)+
   theme_classic()
