@@ -158,4 +158,4 @@ Record PCR setup & needed bead purification amounts
 
 | Sample name | post PCR conc. ng/uL | bead discard conc. ng/uL | final MSG library conc. ng/uL | uL left  | bp size  | total nanograms | FC1 primer |
 |-------------|----------------------|--------------------------|-------------------------------|----------|----------|-----------------|------------|
-| <i></i>     |  <i></i>             |  <i></i>                 |  <i></i>                      |  <i></i> |  <i></i> |  <i></i>        |  <i></i>   |
+|-            |-                     |-                         |-                              |-         |-         |-                |-           |
