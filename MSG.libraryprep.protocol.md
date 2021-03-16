@@ -55,7 +55,7 @@ Make ligation mastermix. Add per sample:
 record volumes:
 | Sample name | Sample volume | P:C volume | Sample volume | Chloroform volume | date completed |
 |-------------|---------------|------------|---------------|-------------------|----------------|
-|             |               |            |               |                   |                |
+|-            |-              |-           |-              |-                  |-               |
 
 ### Bead purify using the Agencourt AMPure PCR purification kit.  	
 - Swirl bottle to resuspend beads.
@@ -77,7 +77,7 @@ record volumes:
 record sample volume post Phenol:Chloroform & Qubit results post bead purification
 | Sample name | Sample volume | bead volume | Qbit conc. ng/uL | uL DNA | total ng |
 |-------------|---------------|-------------|------------------|--------|----------|
-|             |               |             |                  |        |          |
+|-            |-              |-            |-                 |-       |-         |
 
 ### Run pooled sample on a BluePippin Prep 2% Cassette with internal standards.
 - Use cassette 2% DF Marker V1
@@ -109,7 +109,7 @@ record sample volume post Phenol:Chloroform & Qubit results post bead purificati
 Record volumes post pippin prep & Qubit post pippin + buffer exchange
 | Sample name | Sample volume | bead volume | Qbit conc. ng/uL | uL DNA | total ng |
 |-------------|---------------|-------------|------------------|--------|----------|
-|             |               |             |                  |        |          |
+|-            |-              |-            |-                 |-       |-         |
 
 ### Amplify bar-coded fragments using the Phusion PCR kit and FC1 and FC2 primers 
 Make 2 50 &micro;L PCR reactions for each plate with the following:
@@ -135,7 +135,7 @@ The program should be:
 Record PCR setup & needed bead purification amounts
 | Sample name | conc. ng/uL | uL DNA | uL Epure H20 | FC1 primer | volume post PCR | bead volume (.8x) |
 |-------------|-------------|--------|--------------|------------|-----------------|-------------------|
-|             |             |        |              |            |                 |                   |
+|-            |-            |-       |-             |-           |-                |-                  |
 
 ### Bead purify using AMPure Beads to remove all primer dimers and DNA up to 150 bp  
 - Combine all PCR reactions from a single plate into 1 bead clean up tube
