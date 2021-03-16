@@ -9,26 +9,26 @@ Prepare a digestion master mix. Add per sample:
 - 2 &micro;L NEB CutSmart Buffer
 - 0.15 &micro;L NdeI (3U) use NEB enzyme conc : 4000U of 20,000U/&micro;L 
 - 7.85 &micro;L water
----------------------
+---
 - 10 &micro;L total (per sample)
 
 For each sample: add 10 &micro;L digestion master mix to 10 &micro;L sample (100ng DNA)
 - Incubate at 37 &deg;C for 3h in a thermocycler. 
 - Inactivate at 65 &deg;C for 20 minutes in a thermocycler.
 
-###Ligate bar-coded adapters and pool samples.
+### Ligate bar-coded adapters and pool samples.
 Make ligation mastermix. Add per sample:
 - 5 µL10X T4 DNA Ligase Buffer
 - 0.38 &micro;L T4 ligase (150 U) use NEB enzyme conc : 100,000U of 400,000U/mL
 - 23.62 &micro;L water
----------------------
+---
 -29 &micro;L total (per sample)
  
 - Use plate of SJM 40 uM annealed adapters that were diluted to 5 uM 
 - Add to each digested sample 1 &micro;L of adapter oligos (5 uM stock solns), then 29 &micro;L of ligation mastermix:
 - Ligate in a thermocycler at 25 &deg;C for 2 hours. Inactivate at 65 &deg;C for 10 minutes.
 
-###Isopropanol precipitation
+### Isopropanol precipitation
 - Use pipette to take up 50 &micro;L from each well – combine all liquid into a 15 mL tube
 - Add: .1x sample volume of 3M sodium acetate pH5.2 - e.g. 100 samples > 500 &micro;L
 - Add: 1x sample volume of isopropanol - 50 &micro;L - e.g. 100 samples > 5000 &micro;L
@@ -44,7 +44,7 @@ Make ligation mastermix. Add per sample:
 - Heat 30 minutes at 65 &deg;C.  
 - Pool the 4 1.5 mL Eppis from each plate in new tube – end with ~100 &micro;L per sample
 
-###Phenol:Chloroform Extraction
+### Phenol:Chloroform Extraction
 - Add 1x sample volume of phenol:chloroform - 100 &micro;L
 - Mix gently; spin for 10 minutes at max speed.
 - Remove aqueous layer (top layer) to a new tube. Dump the bottom layer into phenol:chloroform liquid waste container.
@@ -57,7 +57,7 @@ record volumes:
 |-------------|---------------|------------|---------------|-------------------|----------------|
 |             |               |            |               |                   |                |
 
-###Bead purify using the Agencourt AMPure PCR purification kit.  	
+### Bead purify using the Agencourt AMPure PCR purification kit.  	
 - Swirl bottle to resuspend beads.
 - Check volume of the sample
 - Add 1.5x sample volume of beads, mix.
@@ -79,7 +79,7 @@ record sample volume post Phenol:Chloroform & Qubit results post bead purificati
 |-------------|---------------|-------------|------------------|--------|----------|
 |             |               |             |                  |        |          |
 
-###Run pooled sample on a BluePippin Prep 2% Cassette with internal standards.
+### Run pooled sample on a BluePippin Prep 2% Cassette with internal standards.
 - Use cassette 2% DF Marker V1
 - Make sure pooled sample is at 30&micro;L – otherwise bring volume up to 30&micro;L with 1XTE
 - Allow loading solution and sample to equilibrate to RT
@@ -88,7 +88,7 @@ record sample volume post Phenol:Chloroform & Qubit results post bead purificati
 - Mix samples and briefly centrifuge
 - Set Pippin Prep to elute the 495-605 bp range of the DNA fragments
 
-###Buffer Exchange sample following elution from Pippin cassette
+### Buffer Exchange sample following elution from Pippin cassette
 - Swirl bottle to resuspend beads.
 - Check volume of the sample
 - Add 2X sample volume of beads, mix.
@@ -111,7 +111,7 @@ Record volumes post pippin prep & Qubit post pippin + buffer exchange
 |-------------|---------------|-------------|------------------|--------|----------|
 |             |               |             |                  |        |          |
 
-###Amplify bar-coded fragments using the Phusion PCR kit and FC1 and FC2 primers 
+### Amplify bar-coded fragments using the Phusion PCR kit and FC1 and FC2 primers 
 Make 2 50 &micro;L PCR reactions for each plate with the following:
 - 10 &micro;L 5X Phusion buffer
 - 1.0 &micro;L 10mM dNTP
@@ -137,7 +137,7 @@ Record PCR setup & needed bead purification amounts
 |-------------|-------------|--------|--------------|------------|-----------------|-------------------|
 |             |             |        |              |            |                 |                   |
 
-###Bead purify using AMPure Beads to remove all primer dimers and DNA up to 150 bp  
+### Bead purify using AMPure Beads to remove all primer dimers and DNA up to 150 bp  
 - Combine all PCR reactions from a single plate into 1 bead clean up tube
 - Check volume of each sample
 - Swirl bottle to resuspend beads.
@@ -156,7 +156,6 @@ Record PCR setup & needed bead purification amounts
 - Transfer supernatant to a new tube.
 - Spec 1 &micro;L of Final MSG Library on Qubit.
 
-Record Qubit results and final MSG DNA library concentrations
 | Sample name | post PCR conc. ng/uL | bead discard conc. ng/uL | final MSG library conc. ng/uL | uL left | bp size | total nanograms | FC1 primer |
 |-------------|----------------------|--------------------------|-------------------------------|---------|---------|-----------------|------------|
 |             |                      |                          |                               |         |         |                 |            |
