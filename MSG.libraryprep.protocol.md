@@ -156,7 +156,6 @@ Record PCR setup & needed bead purification amounts
 - Transfer supernatant to a new tube.
 - Spec 1 &micro;L of Final MSG Library on Qubit.
 
-| Sample name | post PCR conc. ng/uL | bead discard conc. ng/uL | final MSG library conc. ng/uL | uL left | bp size | total nanograms | FC1 primer |
-|-------------|----------------------|--------------------------|-------------------------------|---------|---------|-----------------|------------|
-|             |                      |                          |                               |         |         |                 |            |
-|             |                      |                          |                               |         |         |                 |            |
+| Sample name | post PCR conc. ng/uL | bead discard conc. ng/uL | final MSG library conc. ng/uL | uL left  | bp size  | total nanograms | FC1 primer |
+|-------------|----------------------|--------------------------|-------------------------------|----------|----------|-----------------|------------|
+| <i></i>     |  <i></i>             |  <i></i>                 |  <i></i>                      |  <i></i> |  <i></i> |  <i></i>        |  <i></i>   |
