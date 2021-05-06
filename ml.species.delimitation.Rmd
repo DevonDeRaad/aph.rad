@@ -1,0 +1,287 @@
+---
+title: "Scrub-Jay species delimitation"
+author: "Devon DeRaad"
+date: "3/27/2021"
+output: html_document
+---
+
+```{r}
+library(adegenet)
+library(randomForest)
+library(PCDimension)
+library(mclust)
+library(cluster)
+library(MASS)
+library(factoextra)
+library(tsne)
+library(vcfR)
+library(ggforce)
+library(dplyr)
+
+#read in vcf as vcfR
+vcfR <- read.vcfR("~/Desktop/aph.data/unzipped.filtered.vcf")
+dim(vcfR@gt)
+#filter out SNPs with anymissing data
+vcfR@fix<-vcfR@fix[rowSums(is.na(vcfR@gt)) == 0,]
+vcfR@gt<-vcfR@gt[rowSums(is.na(vcfR@gt)) == 0,]
+vcfR #95 samples and ~1779 SNPs with no missing data
+
+#write out vcf with no missing data for input into popVAE
+#write.vcf(vcfR, "~/Downloads/aphelocoma.no.missing.vcf.gz")
+
+#bring in locality info
+locs<-read.csv("~/Desktop/aph.data/rad.sampling.csv")
+#subset locs to include only samples that passed filtering, and have been retained in the vcf
+locs<-locs[locs$id %in% colnames(vcfR@gt),]
+locs[20,5]<-"woodhouseii"
+
+#convert vcfR into a 'genind' object
+data<-vcfR2genind(vcfR)
+#convert to genlight
+gen<-vcfR2genlight(vcfR)
+
+#scale the genind
+data_scaled <- scaleGen(data, center=FALSE, scale=FALSE, NA.method=c("mean"), nf)
+data_scaled <- scaleGen(data, center=FALSE, scale=FALSE)
+```
+
+```{r}
+#split df by species
+spec.dfs<-split(locs, locs$species)
+
+#init sampling.df which will be a df of samples grouped by unique lat/long
+sampling.df<-data.frame(NULL)
+for (i in names(spec.dfs)){
+  samps<-spec.dfs[[i]] %>% group_by(decimallatitude, decimallongitude) %>% summarize(count=n())
+  df<-cbind(rep(i, times=nrow(samps)), samps)
+  sampling.df<-as.data.frame(rbind(sampling.df, df))
+}
+#fix colnames
+colnames(sampling.df)<-c("species","lat","long","count")
+
+#make full map
+pac<-map_data("world")
+#
+ggplot()+
+  geom_polygon(data = pac, aes(x=long, y = lat, group = group), fill="gray92", col="darkgrey", cex=.1)+
+  coord_sf(xlim = c(-123, -80), ylim = c(14, 47)) + 
+  geom_point(data = sampling.df, aes(x = long, y = lat, col=species, size=count), alpha =.9, show.legend=TRUE) +
+  theme_classic()+
+  scale_size_continuous(range = c(4,8))+
+  guides(colour = guide_legend(override.aes = list(size = 4), order=1, label.theme = element_text(face = "italic")),
+         size = guide_legend(nrow = 1, order = 2))+
+  theme(legend.position = c(0.01, 0.01), legend.justification = c(0.01, 0.01))+
+  xlab("longitude")+ ylab("latitude")
+```
+
+```{r}
+#####
+#Perform DAPC
+#####
+#Do dapc and choose groups
+#assign samples to the number of groups present in popmap, retain all PCAs
+#grp<-find.clusters(gen, max.n.clust=20)
+#set manually the values I chose based on looking at the scree plots. DAPC can't discriminate significantly between 5 and 6 species models based on BIC.
+grp<-find.clusters(gen, n.pca=79, n.clust=6)
+#run dapc, retain all discriminant axes, and enough PC axes to explain 75% of variance
+#dapc1<-dapc(gen, grp$grp)
+#set manually the values I chose from scree plots
+dapc1<-dapc(gen, grp$grp, n.pca = 30, n.da = 5)
+
+plot.df<-as.data.frame(dapc1$ind.coord)
+ggplot(data=plot.df, aes(x=LD3, y=LD4, color=grp$grp))+
+  geom_point(cex=3)+
+  theme_classic()+
+  labs(x="Linear discriminant 3",y="Linear discriminant 4")+
+#  scale_color_manual(name="Cluster",
+#                     limits = c(1,6,3,4,2,5),
+#                     values=c("red","blue","green","orange","purple","pink"),
+#                     labels = c("Island","California","Woodhouse","Texas","Sumichrast","Florida"))+
+  theme(legend.position = "none")
+
+```
+
+```{r}
+###############################################
+###############################################
+# into the Random Forest, unsupervised
+###############################################
+###############################################
+
+# convert genind scaled data to factors for randomForest
+data_conv <- as.data.frame(data_scaled)
+data_conv[is.na(data_conv)] <- ""
+data_conv[sapply(data_conv, is.integer)] <- lapply(data_conv[sapply(data_conv, is.integer)], as.factor)
+data_conv[sapply(data_conv, is.character)] <- lapply(data_conv[sapply(data_conv, is.character)], as.factor)
+nsamp <- nrow(data_conv)
+
+# unsupervised random forest
+rftest <- randomForest(data_conv, ntree=5000)
+#rftest <- randomForest(pca1$tab, ntree=500)
+#rftest <- randomForest(data_scaled, ntree=500)
+
+###############
+# classic MDS
+###############
+# cMDS with optimal number of components to retain using broken-stick
+cmdsplot1 <- MDSplot(rf=rftest, fac=plot.df$clust.pc, k=10) # may need to adjust number of dimensions if given error
+cmdsplot_bstick <- PCDimension::bsDimension(cmdsplot1$eig)
+cmdsplot2 <- MDSplot(rftest, plot.df$clust.pc, cmdsplot_bstick)
+
+#cMDS plot from random forest run with the 10 groups identified by dapc labeled
+cmds<-as.data.frame(cmdsplot2$points)
+plot.df$rf.cmds1<-cmdsplot2$points[,1]
+plot.df$rf.cmds2<-cmdsplot2$points[,2]
+plot.df$rf.cmds3<-cmdsplot2$points[,3]
+plot.df$rf.cmds4<-cmdsplot2$points[,4]
+
+pop<-c()
+# pam clustering
+for (i in 2:10){
+  pop[i]<-mean(silhouette(pam(cmdsplot2$points, i))[, "sil_width"])
+}
+plot(pop,type = "o", xlab = "K", ylab = "PAM silhouette", main="random forest PAM")
+
+#prefers 5 groups, matching dapc
+DAPC_pam_clust_prox <- pam(cmdsplot2$points, 5)
+plot.df$rf.cmds.pam<-as.factor(DAPC_pam_clust_prox$clustering)
+
+#plot with color = island and circles showing pam PCA clustering
+ggplot(data=plot.df, aes(x=rf.cmds1, y=rf.cmds4, col=rf.cmds.pam))+
+  geom_point(cex=3)+
+  theme_classic()+
+  labs(x="Dimension 1",y="Dimension 4")
+  #+theme(legend.position = "none")
+
+# determine optimal k from cMDS via hierarchical clustering with BIC
+# adjust G option to reasonable potential cluster values, e.g. for up to 12 clusters, G=1:12
+cmdsplot_clust <- Mclust(cmdsplot2$points)
+cmdsplot_clust$G
+#hierarchical clustering of random forest identifies 6 groups 
+
+# cMDS with optimal k and clusters of RF via hierarchical clustering
+plot.df$rf.cmds.mclust<-as.factor(cmdsplot_clust$classification)
+ggplot(data=plot.df, aes(x=rf.cmds1, y=rf.cmds4, col=rf.cmds.mclust))+
+  geom_point(cex=3)+
+  theme_classic()+
+  labs(x="Dimension 1",y="Dimension 4")
+  #+theme(legend.position = "none")
+
+
+```
+
+```{r}
+###############################################
+###############################################
+# t-SNE
+###############################################
+###############################################
+
+#perform PCA
+pca1 <- dudi.pca(data_scaled, center=FALSE, scale=FALSE, scannf=FALSE, nf=10)
+
+# t-SNE on principal components of scaled data
+# adjust perplexity, initial_dims
+# can do k=3 for 3D plot
+# should do only <50 variables
+# can do it on pca1$li (if you reduce the number of components), or on cmdsplot2$points
+# PCA, can adjust nf to include more components
+tsne_p5<-tsne(pca1$li, max_iter=5000, perplexity=5, initial_dims=5)
+
+#add tsne coordinates to plotting df
+plot.df$tsne.1<-tsne_p5[,1]
+plot.df$tsne.2<-tsne_p5[,2]
+
+pop<-c()
+# pam clustering
+for (i in 2:10){
+  pop[i]<-mean(silhouette(pam(tsne_p5, i))[, "sil_width"])
+}
+plot(pop,type = "o", xlab = "K", ylab = "PAM silhouette", main="t-SNE PAM")
+
+#pam prefers 6 groups
+tsne.pam<-pam(tsne_p5, 6)
+
+# tsne with optimal k and clustering identified via PAM
+plot.df$tsne.pam<-as.factor(tsne.pam$clustering)
+ggplot(data=plot.df, aes(x=tsne.1, y=tsne.2, col=tsne.pam))+
+  geom_point(cex=3)+
+  theme_classic()+
+  labs(x="Dimension 1",y="Dimension 2")
+  #+theme(legend.position = "none")
+
+# determine optimal k of tSNE via hierarchical clustering with BIC
+# adjust G option to reasonable potential cluster values, e.g. for up to 12 clusters, G=1:12
+tsne_p5_clust <- Mclust(tsne_p5)
+tsne_p5_clust$G # of clusters preferred
+
+# tsne with optimal k and clustering identified via PAM
+plot.df$tsne.mclust<-as.factor(tsne_p5_clust$classification)
+ggplot(data=plot.df, aes(x=tsne.1, y=tsne.2, col=tsne.mclust))+
+  geom_point(cex=3)+
+  theme_classic()+
+  labs(x="Dimension 1",y="Dimension 2")
+  #+theme(legend.position = "none")
+
+
+```
+
+```{r}
+#####
+#popVAE
+#####
+
+#run the following code in order to execute popVAE from the command line 10 times
+#for i in {1..10}; do mkdir out.${i}; popvae.py --infile /Users/devder/Downloads/aphelocoma.no.missing.vcf.gz --out out.${i}/scrub.rad --patience 500 --seed 99; done
+
+#bring in latent space coordinates from 10 popVAE runs and do clustering analysis here:
+popvae<-list()
+for (i in 1:10){
+  popvae[[i]]<-read.table(paste0("/Users/devder/popvae/out.",{i},"/scrub.rad_latent_coords.txt"), header = T)
+}
+#check that the order matches the order of our existing data frame
+rownames(plot.df) == popvae[[i]]$sampleID
+
+## pam clustering on each of the 10 iterations
+pop<-c()
+par(mfrow=c(2,2))
+for (j in 1:10){
+  for (i in 2:10){
+    pop[i]<-mean(silhouette(pam(popvae[[j]][,c(1,2)], i))[, "sil_width"])
+  }
+plot(pop,type = "o", xlab = "K", ylab = "PAM silhouette", main = paste0("iteration ",j))
+}
+
+##pam prefers 6 groups twice, 8 groups once, and 7 groups 7 times.
+#I will pick one of the 7 grouped iterations to present
+vae.pam<-pam(popvae[[1]][,c(1,2)], 7)
+plot.df$vae.ld1<-popvae[[1]]$mean1
+plot.df$vae.ld2<-popvae[[1]]$mean2
+
+## vae with optimal k and clustering identified via PAM
+plot.df$vae.pam<-as.factor(vae.pam$clustering)
+ggplot(data=plot.df, aes(x=vae.ld1, y=vae.ld2, col=vae.pam))+
+  geom_point(cex=3)+
+  theme_classic()+
+  labs(x="LD 1",y="LD 2")
+  #+theme(legend.position = "none")
+
+#
+## determine optimal k of vae via hierarchical clustering with BIC
+## adjust G option to reasonable potential cluster values, e.g. for up to 12 clusters, G=1:12
+vae_clust <- Mclust(popvae[[1]][,c(1,2)])
+#optimal number of clusters
+vae_clust$G
+#
+## popvae with optimal k and clustering identified via PAM
+plot.df$vae.mclust<-as.factor(vae_clust$classification)
+ggplot(data=plot.df, aes(x=vae.ld1, y=vae.ld2, col=as.factor(vae_clust$classification)))+
+  geom_point(cex=3)+
+  theme_classic()+
+  labs(x="LD 1",y="LD 2")
+  #+theme(legend.position = "none")
+
+
+```
+
+
