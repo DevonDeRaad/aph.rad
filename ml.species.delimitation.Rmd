@@ -244,6 +244,7 @@ rownames(plot.df) == popvae[[i]]$sampleID
 
 ## pam clustering on each of the 10 iterations
 pop<-c()
+pardefault <- par()
 par(mfrow=c(2,2))
 for (j in 1:10){
   for (i in 2:10){
@@ -252,6 +253,7 @@ for (j in 1:10){
 plot(pop,type = "o", xlab = "K", ylab = "PAM silhouette", main = paste0("iteration ",j))
 }
 
+par(pardefault)
 ##pam prefers 6 groups twice, 8 groups once, and 7 groups 7 times.
 #I will pick one of the 7 grouped iterations to present
 vae.pam<-pam(popvae[[1]][,c(1,2)], 7)
