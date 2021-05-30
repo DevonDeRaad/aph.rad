@@ -2,7 +2,7 @@
 
 1. Isolate genomic DNA using SPRI bead protocol: <https://github.com/DevonDeRaad/aph.rad/blob/master/dna.extraction.protocol.md>
 2. DNA Quantification using Qubit dsDNA Assay - 1&micro;L
-3. Dilute DNA from each sample to a standard concentration DNA – dilute with Epure H20 – (10ng/&micro;L)
+3. Dilute DNA from each sample to a standard concentration DNA – dilute with Epure H20 – (5ng/&micro;L)
 
 ### Digest the genomic DNA samples with NdeI.
 Prepare a digestion master mix. Add per sample:	
@@ -12,7 +12,7 @@ Prepare a digestion master mix. Add per sample:
 ---
 - 10 &micro;L total (per sample)
 
-For each sample: add 10 &micro;L digestion master mix to 10 &micro;L sample (100ng DNA)
+For each sample: add 10 &micro;L digestion master mix to 10 &micro;L sample (50ng DNA)
 - Incubate at 37 &deg;C for 3h in a thermocycler. 
 - Inactivate at 65 &deg;C for 20 minutes in a thermocycler.
 
