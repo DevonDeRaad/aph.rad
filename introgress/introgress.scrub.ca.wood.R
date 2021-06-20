@@ -1,0 +1,180 @@
+library(ggplot2)
+#introgress tutorial
+library(introgress)
+#see if this works for California and Woodhouse's Scrub-Jays
+library(vcfR)
+vcf<-read.vcfR("/Users/devder/Desktop/aph.data/unzipped.filtered.vcf")
+#read in locality info for samples
+locs<-read.csv("~/Desktop/aph.data/rad.sampling.csv")
+#subset locs to include only samples that passed filtering, and have been retained in the vcf
+locs<-locs[locs$id %in% colnames(vcf@gt),]
+rownames(locs)<-1:95
+
+#remove sumi, island, florida, wood mex, and texas
+locs<-locs[c(1:32,57:73),]
+vcf@gt<-vcf@gt[,c(1:33,58:74)]
+colnames(vcf@gt)[-1] == locs$id
+rownames(locs)<-1:nrow(locs)
+dim(vcf)
+#remove SNPs with no data
+source("~/Desktop/snpfiltR/min_mac.R")
+vcf<-min_mac(vcf, min.mac = 1)
+dim(vcf)
+
+vcfR.100<-vcf
+gt <- extract.gt(vcf)
+vcfR.100@gt <- vcf@gt[rowSums(is.na(gt)) == 0,]
+vcfR.100@fix <- vcf@fix[rowSums(is.na(gt)) == 0,]
+
+#convert to genlight
+gen<-vcfR2genlight(vcf)
+gen.100<-vcfR2genlight(vcfR.100)
+#perform PCA
+pca<-glPca(gen.100, nf=30)
+var_frac <- pca$eig/sum(pca$eig)
+
+#pull pca scores out of df
+pca.scores<-as.data.frame(pca$scores)
+pca.scores$species<-locs$species
+
+#ggplot color by species
+ggplot(pca.scores, aes(x=PC1, y=PC2, color=species)) +
+  geom_point(cex = 5, alpha=.5)+
+  theme_classic()
+
+#identify the three samples each with the largest and smallest scores on PC1 to use to call fixed differences
+pca.scores[pca.scores$PC1 > 2.8,]
+pca.scores[pca.scores$PC1 < -1.8,]
+
+#create SNP matrices
+mat<-extract.gt(vcf)
+mat[1:5,1:5]
+conv.mat<-mat
+conv.mat[conv.mat == "0/0"]<-0
+conv.mat[conv.mat == "0/1"]<-1
+conv.mat[conv.mat == "1/1"]<-2
+conv.mat<-as.data.frame(conv.mat)
+#convert to numeric
+for (i in 1:ncol(conv.mat)){
+  conv.mat[,i]<-as.numeric(as.character(conv.mat[,i]))
+}
+
+#calc AF for the samples you will use to call fixed differences
+cal.af<-(rowSums(conv.mat[,c(6,10,17)], na.rm=T)/(rowSums(is.na(conv.mat[,c(6,10,17)]) == FALSE)))/2
+wood.af<-(rowSums(conv.mat[,c(39,41,44)], na.rm=T)/(rowSums(is.na(conv.mat[,c(39,41,44)]) == FALSE)))/2
+
+#find fixed SNPs
+diff<-abs(cal.af - wood.af)
+#how many SNPs are fixed
+table(is.na(diff) == FALSE & diff > .8)
+vcf@fix[,1][is.na(diff) == FALSE & diff > .8]
+
+#subsample original matrix to only fixed diff SNPs
+gen.mat<-mat[is.na(diff) == FALSE & diff > .8,]
+dim(gen.mat)
+
+#subsample matrix converted for AF calcs to only fixed SNPS
+conv.mat<-conv.mat[is.na(diff) == FALSE & diff > .8,]
+dim(conv.mat)
+
+#write a logical test to convert alleles so that a single number represents one parental ancestry
+for (i in 1:nrow(gen.mat)){
+  #if 1 is the wood allele (ie < .2 frequency in the 3 cali samples used for identifying informative SNPs)
+  if((sum(conv.mat[i,c(6,10,17)], na.rm=T)/(sum(is.na(conv.mat[i,c(6,10,17)]) == FALSE)))/2 < .2){
+    #swap all '0/0' cells with '2/2'
+    gen.mat[i,][gen.mat[i,] == "0/0"]<-"2/2"
+    #swap all '1/1' cells with '0/0'
+    gen.mat[i,][gen.mat[i,] == "1/1"]<-"0/0"
+    #finally convert all '2/2' cells (originally 0/0) into '1/1'
+    gen.mat[i,][gen.mat[i,] == "2/2"]<-"1/1"
+    #no need to touch hets
+  }
+}
+
+#convert R class NAs to the string "NA/NA"
+gen.mat[is.na(gen.mat) == TRUE]<-"NA/NA"
+
+#make locus info df
+locus.info<-data.frame(locus=rownames(gen.mat),
+                       type=rep("C", times=nrow(gen.mat)),
+                       lg=vcf@fix[,1][is.na(diff) == FALSE & diff > .8],
+                       marker.pos=vcf@fix[,2][is.na(diff) == FALSE & diff > .8])
+#make linkage group numeric
+locus.info$lg<-gsub("Pseudochr", "", locus.info$lg)
+locus.info$lg[locus.info$lg == "M"]<-31
+locus.info$lg[locus.info$lg == "Z"]<-30
+locus.info$lg[locus.info$lg == "1A"]<-1.5
+locus.info$lg[locus.info$lg == "4A"]<-4.5
+locus.info$lg<-as.numeric(locus.info$lg)
+locus.info$marker.pos<-as.numeric(as.character(locus.info$marker.pos))
+
+#make bpcum
+nCHR <- length(unique(locus.info$lg))
+locus.info$BPcum <- NA
+s <- 0
+nbp <- c()
+for (i in sort(unique(locus.info$lg))){
+  nbp[i] <- max(locus.info[locus.info$lg == i,]$marker.pos)
+  locus.info[locus.info$lg == i,"BPcum"] <- locus.info[locus.info$lg == i,"marker.pos"] + s
+  s <- s + nbp[i]
+}
+
+#we now have a gt matrix in proper format for introgress
+#convert genotype data into a matrix of allele counts
+count.matrix<-prepare.data(admix.gen=gen.mat, loci.data=locus.info,
+                           parental1="1",parental2="0", pop.id=F,
+                           ind.id=F, fixed=T)
+
+#estimate hybrid index values
+hi.index.sim<-est.h(introgress.data=count.matrix,loci.data=locus.info,
+                    fixed=T, p1.allele="1", p2.allele="0")
+
+locus.info$locus<-rep("", times=nrow(locus.info))
+#LociDataSim1$lg<-c(1:110)
+mk.image(introgress.data=count.matrix, loci.data=locus.info,
+         marker.order=NULL,hi.index=hi.index.sim, ylab.image="Individuals",marker.order = order(locus.info$BPcum),
+         xlab.h="population 2 ancestry", pdf=F,
+         col.image=c(rgb(1,0,0,alpha=.5),rgb(0,0,0,alpha=.8),rgb(0,0,1,alpha=.5)))
+
+#calculate mean heterozygosity across these 110 fixed markers for each sample
+#using their function
+het<-calc.intersp.het(introgress.data=count.matrix)
+dev.off()
+#make triangle plot
+triangle.plot(hi.index=hi.index.sim, int.het=het, pdf = F)
+
+
+#save plots
+pdf(file = "~/Desktop/aph.data/introgress/pca.triangel.pdf",   # The directory you want to save the file in
+    width = 8.5, # The width of the plot in inches
+    height = 4) # The height of the plot in inches
+
+par(mfrow=c(1,2))
+#plot pca
+plot(x=pca.scores$PC1, y=pca.scores$PC2, bg=c(rep(rgb(1,0,0,alpha=.5), times=19),rgb(0,0,1,alpha=.5),
+                                              rep(rgb(1,0,0,alpha=.5), times=12), rep(rgb(0,0,1,alpha=.5), times=17)),
+     pch=21, cex=1.5,
+     xlab="PC1, 11.7% variance explained", ylab="PC2, 3.7% variance explained")
+
+#plot triangle
+plot(x=hi.index.sim$h, y=het, bg=c(rep(rgb(1,0,0,alpha=.5), times=19),rgb(0,0,1,alpha=.5),
+                                   rep(rgb(1,0,0,alpha=.5), times=12), rep(rgb(0,0,1,alpha=.5), times=17)),
+     pch=21, cex=1.5,
+     xlab="Hybrid Index", ylab="Interspecific heterozygosity",
+     ylim=c(0,1))
+segments(x0 =0, y0 =0, x1 =.5, y1 =1)
+segments(x0 =1, y0 =0, x1 =.5, y1 =1)
+
+dev.off()
+
+pdf(file = "~/Desktop/aph.data/introgress/genotype.plot.pdf",   # The directory you want to save the file in
+    width = 8.5, # The width of the plot in inches
+    height = 5) # The height of the plot in inches
+
+#make genotype plot
+mk.image(introgress.data=count.matrix, loci.data=locus.info,
+         hi.index=hi.index.sim, ylab.image="Individuals", marker.order = order(locus.info$BPcum),
+         xlab.h="population 2 ancestry", pdf=F,
+         col.image=c(rgb(0,0,1,alpha=.5),rgb(0,0,0,alpha=.8),rgb(1,0,0,alpha=.5)))
+
+dev.off()

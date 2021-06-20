@@ -1,0 +1,18 @@
+<itsabeastystatewerein version='2.0' sample='5000000'>
+<statenode id='Tree.rep2'>(0:0.06995503377312232,((1:0.03331809681263746,(2:0.021646828041023216,((4:0.0033968717964722624,5:0.0033968717964722775)8:4.293780367318079E-5,6:0.0034398096001454466)7:0.018207018440877763)10:0.01167126877161424)9:0.0037047946132633194,3:0.03702289142590075)11:0.03293214234722154)12:0.0</statenode>
+<statenode id='u'>u[1 1] (0.0,Infinity): 12.014586370591099 </statenode>
+<statenode id='v'>v[1 1] (0.0,Infinity): 0.5217115918847519 </statenode>
+<statenode id='lambda'>lambda[1 1] (0.0,Infinity): 67.89385017629154 </statenode>
+<statenode id='coalescenceRate'>coalescenceRate[13 1] (-Infinity,Infinity): 19.00526733382887 11.97532130063459 18.519241351765988 43.58593853905988 11.783471286761667 34.84024724462421 12.875058897041404 9.354837774378465 11.651853686084625 28.521934618381984 11.442634622234575 30.840676461182557 17.630302110843797 </statenode>
+</itsabeastystatewerein>
+<!--
+{"operators":[
+{"id":"NodeSwapper","p":"NaN","accept":11902,"reject":188102,"acceptFC":11857,"rejectFC":187701,"rejectIv":43592,"rejectOp":43592},
+{"id":"NodeBudger","p":0.7503343765595665,"accept":47828,"reject":152728,"acceptFC":47695,"rejectFC":152399,"rejectIv":0,"rejectOp":0},
+{"id":"TreeScaler","p":0.6354577615457292,"accept":29440,"reject":170207,"acceptFC":29402,"rejectFC":169770,"rejectIv":0,"rejectOp":0},
+{"id":"GammaMover","p":1.06858563332203,"accept":798569,"reject":2401204,"acceptFC":795175,"rejectFC":2397301,"rejectIv":0,"rejectOp":0},
+{"id":"RateMixer","p":0.013808975634526207,"accept":691,"reject":399220,"acceptFC":670,"rejectFC":398334,"rejectIv":0,"rejectOp":0},
+{"id":"MutationMover","p":"NaN","accept":10056,"reject":390343,"acceptFC":10026,"rejectFC":389441,"rejectIv":121471,"rejectOp":121471},
+{"id":"lambdaScaler","p":0.20004616243060216,"accept":109604,"reject":290107,"acceptFC":108877,"rejectFC":289974,"rejectIv":0,"rejectOp":0}
+]}
+-->

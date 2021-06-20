@@ -1,0 +1,143 @@
+---
+title: "Nuc.div.fst"
+author: "Devon DeRaad"
+date: "6/20/2021"
+output: html_document
+---
+
+```{r}
+library(vcfR)
+library(ggplot2)
+library(StAMPP)
+library(gridExtra)
+
+#visualize nucleotide diversity
+#read in vcf as vcfR
+vcfR <- read.vcfR("~/Desktop/aph.data/unzipped.filtered.vcf")
+#bring in locs
+locs<-read.csv("~/Desktop/aph.data/rad.sampling.csv")
+#subset locs to include only samples that passed filtering, and have been retained in the vcf
+locs<-locs[locs$id %in% colnames(vcfR@gt),]
+locs[20,5]<-"woodhouseii"
+rownames(locs)<-1:95
+locs$species<-as.character(locs$species)
+locs[74:80,4]<-"texana"
+locs[81:95,4]<-"mex_wood"
+locs[c(20,57:73),4]<-"wood_us"
+#locs[33:38,4]<-"zfla"
+locs$species<-as.factor(locs$species)
+table(locs$species)
+
+#read in diversity statistics by species
+spec.div<-read.table("~/Desktop/aph.data/nuc.div/7spec.populations.sumstats_summary.all.pos.tsv", header=T)
+
+#read in diversity statistics by individual
+indiv.div<-read.table("~/Desktop/aph.data/nuc.div/all.samples.populations.sumstats_summary.all.pos.tsv", header=T)
+as.character(indiv.div$popID) == locs$id
+indiv.div$species<-locs$species
+
+#turn off scientific notation
+#options(scipen = 999)
+```
+
+```{r}
+#make boxplot by species
+#plot heterozygosity as violin plots for each subspecies
+nuc.div.boxplot<-ggplot(indiv.div, aes(x=species, y=Obs_Het)) + 
+  #geom_violin(trim = FALSE)+
+  geom_dotplot(binaxis='y', stackdir='center', dotsize = 1, alpha=.75, aes(fill=species, color=species))+
+  theme_classic()+
+  #scale_fill_manual(values=c("blue","pink","red","purple","orange","green"))+
+  #scale_color_manual(values=c("blue","pink","red","purple","orange","green"))+
+  scale_x_discrete(labels=c("1:10","26","11","20:23","24:25","19","12:18"))+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size=14),
+        axis.text.y = element_text(angle = 0, hjust = .5),
+        legend.position = "none")+
+  geom_point(spec.div, mapping=aes(x=c(1,7,2,3,5,6,4), y=Pi/.7), pch=8, cex=2)+
+  labs(x="",y="heterozygosity")+
+  #scale_y_continuous(sec.axis = sec_axis(trans = (~.*1.45), name="Pi", breaks = c(0,.05,.1)))
+  scale_y_continuous(sec.axis = sec_axis(trans = (~.*.7), name="Pi", breaks = c(0,.0005,.001, .0015)))
+  
+#ggsave("~/Desktop/aph.data/nuc.div/boxplot.pdf", width=4, height = 3.5)
+
+```
+
+```{r}
+#calc Fst
+#read in vcf as vcfR
+vcfR <- read.vcfR("~/Desktop/aph.data/unzipped.filtered.vcf")
+dim(vcfR@gt)
+#convert to genlight
+gen<-vcfR2genlight(vcfR)
+
+#calc pairwise Fst
+gen@pop<-as.factor(locs$species)
+di.heat<-stamppFst(gen)
+m<-di.heat$Fsts
+#fill in upper triangle of matrix
+m[upper.tri(m)] <- t(m)[upper.tri(m)]
+
+#melt for plotting
+heat <- reshape::melt(m)
+
+#plot with labels
+ggplot(data = heat, aes(x=X1, y=X2, fill=value)) + 
+  geom_tile()+
+  geom_text(data=heat,aes(label=round(value, 2)))+
+  theme_minimal()+
+  scale_fill_gradient2(low = "white", high = "red", space = "Lab", name="Fst") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+#identify the number of fixed differences between pops
+mat<-extract.gt(vcfR)
+conv.mat<-mat
+conv.mat[conv.mat == "0/0"]<-0
+conv.mat[conv.mat == "0/1"]<-1
+conv.mat[conv.mat == "1/1"]<-2
+conv.mat<-as.data.frame(conv.mat)
+#convert to numeric
+for (i in 1:ncol(conv.mat)){
+  conv.mat[,i]<-as.numeric(as.character(conv.mat[,i]))
+}
+
+#show colnames to verify you're subsetting correctly
+colnames(conv.mat) == locs$id
+
+#make vector to fill with fixed diff values
+f<-c()
+
+#write for loop to calc number of fixed diffs between each pop
+for (i in 1:nrow(heat)){
+  #calc af of pop1 and pop2
+  pop1.af<-(rowSums(conv.mat[,locs$species == heat$X1[i]], na.rm=T)/(rowSums(is.na(conv.mat[,locs$species == heat$X1[i]]) == FALSE)))/2
+  pop2.af<-(rowSums(conv.mat[,locs$species == heat$X2[i]], na.rm=T)/(rowSums(is.na(conv.mat[,locs$species == heat$X2[i]]) == FALSE)))/2
+  #store number of fixed differences
+  f[i]<-sum(is.na(abs(pop1.af - pop2.af)) == FALSE & abs(pop1.af - pop2.af) == 1) #find fixed SNPs and add to vector
+}
+
+#add number of fixed diffs to df
+heat$fixed<-f
+
+#fix the assignments
+heat$mixed<-heat$value
+heat$mixed[c(2:7,10:14,18:21,26:28,34:35,42)]<-heat$fixed[c(2:7,10:14,18:21,26:28,34:35,42)]
+
+#plot with labels
+fst.plot<-ggplot(data = heat, aes(x=X1, y=X2, fill=value)) + 
+  geom_tile()+
+  scale_x_discrete(limits=levels(heat$X2)[c(1,7,2,3,4,5,6)], labels=c("1:10","12:18","26","11","24:25","19","20:23"))+ 
+  scale_y_discrete(limits=levels(heat$X2)[c(1,7,2,3,4,5,6)], labels=c("1:10","12:18","26","11","24:25","19","20:23"))+
+  geom_text(data=heat,aes(label=round(mixed, 2)), size=2.5)+
+  theme_minimal()+
+  scale_fill_gradient2(low = "white", high = "red", space = "Lab", name="Fst") +
+  theme(axis.text.x = element_text(angle = 45, vjust=.25, size=12),
+        axis.text.y = element_text(hjust = -.2, size=12),
+        axis.title.x = element_blank(), axis.title.y = element_blank())
+
+g<-grid.arrange(nuc.div.boxplot,fst.plot, nrow=1)
+#ggsave("~/Desktop/aph.data/nuc.div/combined.pdf", g, width=8.5, height=3)
+
+```
+

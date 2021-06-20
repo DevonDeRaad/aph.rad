@@ -1,0 +1,22 @@
+#commands for running Dsuite
+#files:
+#'whole.locus.2725.nwk.tre' is a newick species tree rooted on the outgroup
+#'unzipped.filtered.vcf' is a vcf containing 16K filtered SNPs
+#'pops.txt' is a text file w/ 2 columns: sample /t species (outgroup must be called 'Outgroup')
+
+#run Dtrios
+#-c means this is the whole file, -n gives the name, -t gives the guidetree, followed by the vcf and popmap
+/home/d669d153/work/Dsuite/Build/Dsuite Dtrios -c -n 7spec -t whole.locus.2725.nwk.tre unzipped.filtered.vcf pops.txt
+
+#plot heatmap of D
+ruby plot_d.rb pops_7spec_BBAA.txt plot_order.txt 0.7 7spec_BBAA_D.svg
+
+#plot heatmap of f4
+ruby plot_f4ratio.rb pops_7spec_BBAA.txt plot_order.txt 0.2 7spec_BBAA_f4ratio.svg
+
+#run fbranch on the guidetree, with the Dtrios output ending in 'tree.txt' (guidetree must be rooted on outgroup)
+/home/d669d153/work/Dsuite/Build/Dsuite Fbranch whole.locus.2725.nwk.tre pops_7spec_tree.txt > 7spec_Fbranch.txt
+
+#plot the fbranch heatmap with guidetree above
+/home/d669d153/work/Dsuite/utils/dtools.py 7spec_Fbranch.txt whole.locus.2725.nwk.tre
+

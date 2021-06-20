@@ -1,0 +1,8 @@
+
+
+Using BFGS method to optimize GTR rate parameters, to disable this specify "--no-bfgs" 
+
+
+Error, one or more of your partitions use an ascertainment bias correction,
+but you have not specified which correction type you want to use via "--asc-corr" 
+

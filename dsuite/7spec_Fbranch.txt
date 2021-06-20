@@ -1,0 +1,11 @@
+branch	branch_descendants	Outgroup	i	c	s	iw	mw	t
+b2	i,c	nan	nan	nan	nan	nan	nan	nan
+b3	s,iw,mw,t	nan	nan	nan	nan	nan	nan	nan
+b4	i	nan	nan	nan	0	0	0	0
+b5	c	nan	nan	nan	0	0	0.208906	0.105093
+b6	iw,mw,t	nan	0	0.265646	nan	nan	nan	nan
+b7	s	nan	0	0	nan	nan	nan	nan
+b8	mw,t	nan	0	0	0	nan	nan	nan
+b9	iw	nan	0.0115855	0.073414	0	nan	nan	nan
+b10	mw	nan	0	0	0	0	nan	nan
+b11	t	nan	0	0	0	0	nan	nan

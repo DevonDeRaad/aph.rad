@@ -1,0 +1,185 @@
+---
+title: "dfs"
+author: "Devon DeRaad"
+date: "6/20/2021"
+output: html_document
+---
+
+```{r}
+#Download genomics general (run the following in bash)
+#download package
+#wget https://github.com/simonhmartin/genomics_general/archive/v0.4.tar.gz
+#extract files from zipped archive
+#tar -xzf v0.4.tar.gz
+#delete zipped file
+#rm v0.4.tar.gz
+#ensure libraries are recognizable by python
+#export PYTHONPATH=$PYTHONPATH:genomics_general-0.4
+```
+
+```{r}
+library(vcfR)
+#in R run the following code to generate a vcf file with only the samples of interest
+#read in vcf as vcfR
+vcfR <- read.vcfR("~/Desktop/aph.data/unzipped.filtered.vcf")
+dim(vcfR)
+colnames(vcfR@gt)
+#retain only ((sumi,int.wood),cali,fla) as ((P1,P2),P3,P4)
+vcfR@gt<-vcfR@gt[,c(1:39,48:74)]
+dim(vcfR)
+#retain only SNPs that still have a maf > 0
+source("~/Desktop/snpfiltR/min_mac.R")
+vcfR<-min_mac(vcfR, min.mac = 1)
+dim(vcfR)
+write.vcf(vcfR, file="~/Desktop/aph.data/dfs/dfs.sumi.wood.cali.fla.vcf.gz")
+#generate popmap
+colnames(vcfR@gt)
+names<-colnames(vcfR@gt)[-1]
+pops<-c(rep("P3", times=19),"P2",rep("P3", times=12),rep("OG", times=6),rep("P1",times=10),rep("P2",times=17))
+d<-data.frame(names=names,pops=pops)
+table(d$pops)
+#write popmap
+write.table(d, file="~/Desktop/aph.data/dfs/pops.sumi.wood.cali.fla.txt", sep = "\t", row.names = F, col.names = F, quote = F)
+```
+
+```{r}
+#try flipping the nodes and doing ((island,cali),int.wood,fla) as ((P1,P2),P3,P4)
+#read in vcf as vcfR
+vcfR <- read.vcfR("~/Desktop/aph.data/unzipped.filtered.vcf")
+dim(vcfR)
+colnames(vcfR@gt)
+#retain only ((island,cali),int.wood,fla) as ((P1,P2),P3,P4)
+vcfR@gt<-vcfR@gt[,c(1:47,58:74)]
+dim(vcfR)
+#retain only SNPs that still have a maf > 0
+source("~/Desktop/snpfiltR/min_mac.R")
+vcfR<-min_mac(vcfR, min.mac = 1)
+dim(vcfR)
+write.vcf(vcfR, file="~/Desktop/aph.data/dfs/dfs.isl.cali.wood.fla.vcf.gz")
+#generate popmap
+colnames(vcfR@gt)
+names<-colnames(vcfR@gt)[-1]
+pops<-c(rep("P2", times=19),"P3",rep("P2", times=12),rep("OG", times=6),rep("P1",times=8),rep("P3",times=17))
+d<-data.frame(names=names,pops=pops)
+table(d$pops)
+#write popmap
+write.table(d, file="~/Desktop/aph.data/dfs/pops.isl.cali.wood.fla.txt", sep = "\t", row.names = F, col.names = F, quote = F)
+```
+
+```{r}
+#run the following in bash to generate your 3D sfs for the 3 focal species (plus outgroup): ((sumi,int.wood),cali,fla) as ((P1,P2),P3,P4)
+#convert vcf to .geno
+#cd ~/Desktop/aph.data/dfs
+#python /Users/devder/Downloads/genomics_general-0.4/VCF_processing/parseVCF.py -i dfs.sumi.wood.cali.fla.vcf.gz -o sumi.wood.cali.fla.geno.gz
+#compute basecounts for all sites, popsfile must identify each pop
+#python /Users/devder/Downloads/genomics_general-0.4/freq.py -g sumi.wood.cali.fla.geno.gz -p P1 -p P2 -p P3 -p OG --popsFile pops.sumi.wood.cali.fla.txt | gzip > sumi.wood.cali.fla.basecounts.tsv.gz
+#now run sfs.py to generate sfs. must have identical number of samples in p1 and p2
+#python /Users/devder/Downloads/genomics_general-0.4/sfs.py -i sumi.wood.cali.fla.basecounts.tsv.gz --inputType baseCounts --outgroup OG  --FSpops P1 P2 P3 --subsample 20 20 20 --pref mydata. --suff sumi.wood.cali.fla.sfs
+```
+
+```{r}
+#run the following in bash to generate your 3D sfs for the 3 focal species (plus outgroup): ((island,cali),int.wood,fla) as ((P1,P2),P3,P4)
+#convert vcf to .geno
+#cd ~/Desktop/aph.data/dfs
+#python /Users/devder/Downloads/genomics_general-0.4/VCF_processing/parseVCF.py -i dfs.isl.cali.wood.fla.vcf.gz -o isl.cali.wood.fla.geno.gz
+#compute basecounts for all sites, popsfile must identify each pop
+#python /Users/devder/Downloads/genomics_general-0.4/freq.py -g isl.cali.wood.fla.geno.gz -p P1 -p P2 -p P3 -p OG --popsFile pops.isl.cali.wood.fla.txt | gzip > isl.cali.wood.fla.basecounts.tsv.gz
+#now run sfs.py to generate sfs. must have identical number of samples in p1 and p2
+#python /Users/devder/Downloads/genomics_general-0.4/sfs.py -i isl.cali.wood.fla.basecounts.tsv.gz --inputType baseCounts --outgroup OG  --FSpops P1 P2 P3 --subsample 16 16 16 --pref mydata. --suff isl.cali.wood.fla.sfs
+```
+
+```{r}
+#####
+####
+###
+##
+#
+# Simon H. Martin 2020
+# simon.martin@ed.ac.uk
+
+################################ Start Here ####################################
+
+# This script accompanies the paper:
+# "Signatures of introgression across the allelel frequency spectrum"
+# by Simon H. Martin and William Amos
+
+# Each section below computes and plots the D frequency spectrum (DFS)
+# from a different empirical site frequency spectrum (SFS).
+
+# The input SFS is provided in tabular format:
+# A tab-delimited table in which the first three columns (or 4 in the case of a 4D SFS)
+# give the allele count in each population (equivalent to the indices of the multidimensional SFS).
+# The final column gives the corresponding number of sites.
+
+# In most cases the input SFS is 3D, with the first three columns corresponding to
+# populations P1, P2 and P3 (see the paper for details). This means that the SFS is
+# polarized, and the outgroup is assumed to carry the ancestral allele at these sites.
+
+# In the case of Helcionius butterflies, we provide an example of using a 4D SFS.
+# In this case, the input SFS is not polarzed. This means that the frequencies provided
+# correspond to minor allele counts, and the fourth column gives the count in teh outgroup.
+# Before DFS can be computed from a 4D SFS, it must first be polarized, and sites at
+# which the outgroup is polymorpic ust be discarded.
+
+#The functions to compute DFS and related statistics are provided in the accompanything script DFS.R
+
+#First import these functions
+source("~/Downloads/DFS.R")
+
+################################################################################
+##############################  Arabidopsis ####################################
+################################################################################
+
+### import the frequency spectrum
+FS <- read.table("/Users/devder/Desktop/aph.data/dfs/mydata.P1_P2_P3sumi.wood.cali.fla.sfs")
+
+### get Dfs
+
+dfs_data <- get.DFS(base_counts=FS[,-4], #base counts are the first three columns (i.e everything minus column 4)
+                    site_counts=FS[,4], # site counts are column 4
+                    Ns = c(20,20,20)) # Ns provide the haploid sample sizes of each population (1 and 2 must always be equal) 
+
+### plot
+
+#png("/Users/devder/Desktop/aph.data/dfs/DFS_isl_ca_intwood_fla.png", width = 2000, height = 1000, res=300)
+par(mar=c(1,4,1,1))
+plotDFS(dfs_data$DFS, dfs_data$weights, method="lines", col_D="red", no_xlab=T)
+#dev.off()
+
+# We can also compute related statistics
+D <- get.D.from.base.counts(base_counts=FS[,-4], site_counts=FS[,4], Ns = c(100,100,2)) #overall D
+f <- get.f.from.base.counts(base_counts=FS[,-4], site_counts=FS[,4], Ns = c(100,100,2)) # overall fraction of introgression
+dcfs <- get.dcfs(base_counts=FS[,-4], site_counts=FS[,4], Ns = c(100,100,2)) # dcfs from Yang et al. 2012
+
+### code for exporting a table of plotted values
+# write.table(data.frame(D=round(dfs_data$DFS,4),
+#                        weight=round(dfs_data$weights,4)),
+#             file="empirical_data/Arabidopsis/DFS_arabidopsis.lyr2_lyr4_arn4.csv",
+#             sep=",",row.names=FALSE,quote=FALSE)
+
+```
+
+```{r}
+#next orientation
+### import the frequency spectrum
+FS <- read.table("/Users/devder/Desktop/aph.data/dfs/mydata.P1_P2_P3isl.cali.wood.fla.sfs")
+
+### get Dfs
+
+dfs_data <- get.DFS(base_counts=FS[,-4], #base counts are the first three columns (i.e everything minus column 4)
+                    site_counts=FS[,4], # site counts are column 4
+                    Ns = c(16,16,16)) # Ns provide the haploid sample sizes of each population (1 and 2 must always be equal) 
+
+### plot
+
+#png("/Users/devder/Desktop/aph.data/dfs/DFS_isl_ca_intwood_fla.png", width = 2000, height = 1000, res=300)
+par(mar=c(1,4,1,1))
+plotDFS(dfs_data$DFS, dfs_data$weights, method="lines", col_D="red", no_xlab=T)
+#dev.off()
+
+# We can also compute related statistics
+D <- get.D.from.base.counts(base_counts=FS[,-4], site_counts=FS[,4], Ns = c(100,100,2)) #overall D
+f <- get.f.from.base.counts(base_counts=FS[,-4], site_counts=FS[,4], Ns = c(100,100,2)) # overall fraction of introgression
+dcfs <- get.dcfs(base_counts=FS[,-4], site_counts=FS[,4], Ns = c(100,100,2)) # dcfs from Yang et al. 2012
+```
+

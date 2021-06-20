@@ -1,0 +1,10 @@
+BEGIN SETS;
+  	TAXPARTITION SPECIES =
+  		fla: 33-38,
+  		isl: 39-46,
+  		cal: 1-19 21-32,
+  		intwood: 20 57-73,
+  		texas: 74-80,
+  		mexwood: 81-95,
+  		sumi: 47-56;
+END;
