@@ -1,11 +1,11 @@
 
 #make popmap for converting vcf into treemix file using stacks
-vcfR <- read.vcfR("~/Desktop/aph.data/unzipped.filtered.vcf")
-samps<-colnames(vcfR@gt)[2:96]
-pops<-gsub("A_","",samps)
-popmap<-data.frame(id=samps,
-                   raxml.spec=gsub("_.*","",pops))
-write.table(popmap, "~/Downloads/map.txt", quote = F, row.names = F, col.names = F, sep = '\t')
+#vcfR <- read.vcfR("~/Desktop/aph.data/unzipped.filtered.vcf")
+#samps<-colnames(vcfR@gt)[2:96]
+#pops<-gsub("A_","",samps)
+#popmap<-data.frame(id=samps,
+#                   raxml.spec=gsub("_.*","",pops))
+#write.table(popmap, "~/Downloads/map.txt", quote = F, row.names = F, col.names = F, sep = '\t')
 
 
 #script to plot treemix output
@@ -16,12 +16,12 @@ write.table(popmap, "~/Downloads/map.txt", quote = F, row.names = F, col.names =
 source("~/Downloads/plotting_funcs.R")
 
 #step 3: move into the treemix output directory and plot trees
-setwd("~/Desktop/aph.data/treemix/")
-
+#setwd("~/Desktop/aph.data/treemix/")
+setwd("~/Downloads/7spec/")
 #0 edge
 plot_tree("treem0")
 #1 edge
-plot_tree("treem1", plus = 0.02, arrow=.1, ybar = 0.3, scale=F, lwd=1.2)
+plot_tree("treem1", plus = 0.02, arrow=.1, ybar = 0, scale=F, lwd=1.5)
 #2 edges
 plot_tree("treem2")
 #3 edges
