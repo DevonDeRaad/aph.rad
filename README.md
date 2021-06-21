@@ -69,3 +69,9 @@ Visualizations of pop-gen approaches to species delimitation and identifying int
 ### Quantifying diversity and divergence
 *   The steps of calculating pariwise Fst, and visualizing heterozygostiy and nucleotide diversity can be viewed step by step with visualizations here:
     > <https://devonderaad.github.io/aph.rad/nuc.div/nuc.div.calc.fst.html>
+
+
+Current iteration of the manuscript
+------------
+*   Resides here: > <https://github.com/DevonDeRaad/aph.rad/blob/master/ScrubJay.manuscript.May.2021.docx>
+
