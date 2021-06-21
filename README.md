@@ -22,7 +22,13 @@ This repository contains a comprehensive compilation of code and expalantory vis
     > <https://github.com/DevonDeRaad/aph.rad/blob/master/raxml/populations.all.phylip.gz>
 
 
-Visualizations of processes described in the paper
+Tree-building approaches
+------------
+*   The set of 16,307 filtered SNPs for all 95 samples can be accessed here:
+    > <https://github.com/DevonDeRaad/aph.rad/blob/master/unzipped.filtered.vcf.gz>
+
+
+Visualizations of pop-gen approaches to species delimitation and identifying introgression
 ------------
 
 ### Machine learning species delimitation pipeline
