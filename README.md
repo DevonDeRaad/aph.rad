@@ -13,11 +13,13 @@ This repository contains a comprehensive compilation of code and expalantory vis
 *   The detailed step by step SNP filtering process with accompanying visualizations can be viewed here:
     > <https://devonderaad.github.io/aph.rad/sequencedata.to.snps/filter.ref.aligned.radstackshelpr.html>
 
-### Access to SNP data
+### Access to raw data
 *   The set of 16,307 filtered SNPs for all 95 samples can be accessed here:
     > <https://github.com/DevonDeRaad/aph.rad/blob/master/unzipped.filtered.vcf.gz>
 *   The set of 2,725 unlinked, filtered SNPs for all 95 samples can be accessed here:
     > <https://github.com/DevonDeRaad/aph.rad/blob/master/unlinked.filtered.recode.vcf.gz>
+*   The phylip file containing all sites (including invariant) for 2,725 unlinked loci (used as input for raxml, svdquartets, and to generate gene sequences for building ASTRAL tree) can be accessed here:
+    > <https://github.com/DevonDeRaad/aph.rad/blob/master/raxml/populations.all.phylip.gz>
 
 
 Visualizations of processes described in the paper
