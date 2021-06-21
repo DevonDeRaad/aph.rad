@@ -32,7 +32,7 @@ Tree-building approaches
 ### SVDquartets
 *   Input nexus with all sites, and output tree from SVDquartets can be accessed here:
     > <https://github.com/DevonDeRaad/aph.rad/blob/master/unzipped.filtered.vcf.gz>
-*   Tree-building was done using the PAUP* GUI following the directions from this tutorial: > <https://github.com/mmatschiner/tutorials/blob/master/species_tree_inference_with_snp_data/README.md>
+*   Tree-building was done using the PAUP* GUI following the directions from this tutorial: <https://github.com/mmatschiner/tutorials/blob/master/species_tree_inference_with_snp_data/README.md>
 
 ### ASTRAL-III
 *   Phylip with all sites used to generate individual gene sequences in nexus format, code for running IQ-TREE to generate 2,725 input gene trees, code for running ASTRAL with input gene trees and performing polytomy tests, the output trees with posterior probabilities and polytomy test scores, and a .csv file detailing quartet support for each internal branch, can all be accessed here:
@@ -55,7 +55,7 @@ Visualizations of pop-gen approaches to species delimitation and identifying int
     > <https://devonderaad.github.io/aph.rad/ml.species.delim/ml.species.delimitation.html>
 
 ### Dsuite
-*   Code to perform ABBA/BABA tests, calculate f4 statistics, and visualize f-branch statistics on guidetree (following tutorial outlined here: > <https://github.com/millanek/Dsuite>), as well as all output files can be found here:
+*   Code to perform ABBA/BABA tests, calculate f4 statistics, and visualize f-branch statistics on guidetree (following tutorial outlined here: <https://github.com/millanek/Dsuite>), as well as all output files can be found here:
     > <https://github.com/DevonDeRaad/aph.rad/tree/master/dsuite>
 
 ### D frequency spectrum
@@ -73,5 +73,5 @@ Visualizations of pop-gen approaches to species delimitation and identifying int
 
 Current iteration of the manuscript
 ------------
-*   Resides here: > <https://github.com/DevonDeRaad/aph.rad/blob/master/ScrubJay.manuscript.May.2021.docx>
+*   Resides here: <https://github.com/DevonDeRaad/aph.rad/blob/master/ScrubJay.manuscript.May.2021.docx>
 
