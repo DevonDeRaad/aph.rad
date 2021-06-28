@@ -6,6 +6,12 @@ output: html_document
 ---
 
 ```{r}
+#visualize the pipeline adapted from Derakarabetian et al. (2019) to infer species here:
+knitr::include_graphics("/Users/devder/Desktop/aph.data/spec.delim.diagram.png")
+```
+
+#perform species delimitation
+```{r}
 library(adegenet)
 library(randomForest)
 library(PCDimension)
@@ -323,7 +329,7 @@ ggplot(data=plot.df, aes(x=vae.ld1, y=vae.ld2, col=as.factor(vae_clust$classific
 
 ```
 
-```{r}
+```{r, fig.height=11, fig.width=8.5}
 
 sampling.df[16,3]<- -102.3
 sampling.df[17,3]<- -100.5
@@ -421,8 +427,10 @@ g1<-arrangeGrob(map,d.pc1,d.pc2,rf.pam,rf.mclust,tsne.pam,tsne.mclust,vae.pam,va
                 layout_matrix = lay, heights=c(2,1,1,1,1))
 
 #reorder compoplot and dotchart as Island, Cali, Woodhouse, Tex, Sumi, Florida
-ggsave(filename = "~/Downloads/specs.pdf", plot = g1, width = 4.25, height=11, units="in")
+#ggsave(filename = "~/Downloads/specs.pdf", plot = g1, width = 4.25, height=11, units="in")
 
+grid.arrange(map,d.pc1,d.pc2,rf.pam,rf.mclust,tsne.pam,tsne.mclust,vae.pam,vae.mclust,
+                layout_matrix = lay, heights=c(2,1,1,1,1))
 
 
 ```
