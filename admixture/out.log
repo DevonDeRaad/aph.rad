@@ -1,0 +1,85 @@
+
+VCFtools - 0.1.15
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf /home/d669d153/work/aph.rad/treemix/unlinked.filtered.recode.vcf
+	--plink
+
+After filtering, kept 95 out of 95 Individuals
+Writing PLINK PED and MAP files ... 
+
+Unrecognized values used for CHROM: Pseudochr1 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr10 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr11 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr12 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr13 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr13_EQ832958_random - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr14 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr15 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr17 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr18 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr19 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr1A - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr2 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr20 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr21 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr21_EQ833162_random - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr23 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr24 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr26 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr27 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr3 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr3_EQ832594_random - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr4 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr4A - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr4_EQ832640_random - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr5 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr6 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr7 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr8 - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr8_EQ832819_random - Replacing with 0.
+
+Unrecognized values used for CHROM: Pseudochr9 - Replacing with 0.
+
+Unrecognized values used for CHROM: PseudochrM - Replacing with 0.
+
+Unrecognized values used for CHROM: PseudochrUn_EQ835415 - Replacing with 0.
+
+Unrecognized values used for CHROM: PseudochrZ - Replacing with 0.
+
+Unrecognized values used for CHROM: PseudochrZ_EQ833367_random - Replacing with 0.
+
+Unrecognized values used for CHROM: scaffold_936 - Replacing with 0.
+Done.
+After filtering, kept 2725 out of a possible 2725 Sites
+Run Time = 2.00 seconds

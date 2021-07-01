@@ -1,96 +1,96 @@
-id,decimallatitude,decimallongitude,species,subspecies,catalognumber,eventdate,country,stateprovince,county,locality
-A_californica_333849,44.1459603,-122.5697929,californica,immanis,333849,6/6/87,USA,Oregon,Deschutes Co,Vida
-A_californica_333854,44.1459603,-122.5697929,californica,immanis,333854,6/6/87,USA,Oregon,Deschutes Co,Vida
-A_californica_333855,44.1459603,-122.5697929,californica,immanis,333855,6/5/87,USA,Oregon,Deschutes Co,Vida
-A_californica_333857,44.1459603,-122.5697929,californica,immanis,333857,6/6/87,USA,Oregon,Deschutes Co,Vida
-A_californica_333860,44.1459603,-122.5697929,californica,immanis,333860,6/6/87,USA,Oregon,Deschutes Co,Vida
-A_californica_333862,40.6093914,-123.6358452,californica,caurina,333862,5/31/87,USA,California,Trinity Co,Pilot Ridge, 10 mi W Hyampom
-A_californica_333871,40.5959797,-123.012249,californica,caurina,333871,6/2/87,USA,California,Trinity Co,Hayfork Summit, 6 mi SW Douglas City
-A_californica_333873,40.5959797,-123.012249,californica,caurina,333873,6/2/87,USA,California,Trinity Co,Hayfork Summit, 6 mi SW Douglas City
-A_californica_333874,40.5959797,-123.012249,californica,caurina,333874,6/2/87,USA,California,Trinity Co,Hayfork Summit, 6 mi SW Douglas City
-A_californica_333914,37.802,-122.031,californica,oocleptica,333914,5/25/87,USA,California,Contra Costa Co,San Ramon, 2 mi NW
-A_californica_333917,37.802,-122.031,californica,oocleptica,333917,5/28/87,USA,California,Contra Costa Co,San Ramon, 2 mi NW
-A_californica_333931,41.5512538,-120.6264166,californica,oocleptica,333931,6/9/87,USA,California,Modoc Co,Alturas, 6 mi NW
-A_californica_333932,41.5512538,-120.6264166,californica,oocleptica,333932,6/9/87,USA,California,Modoc Co,Alturas, 6 mi NW
-A_californica_333934,41.5512538,-120.6264166,californica,oocleptica,333934,6/10/87,USA,California,Modoc Co,Alturas, 6 mi NW
-A_californica_334002,35.858,-120.891,californica,californica,334002,5/20/87,USA,California,Monterey Co,Bradley, 10 km W
-A_californica_334012,35.858,-120.891,californica,californica,334012,5/20/87,USA,California,Monterey Co,Bradley, 10 km W
-A_californica_334015,35.858,-120.891,californica,californica,334015,5/20/87,USA,California,Monterey Co,Bradley, 10 km W
-A_californica_334017,35.858,-120.891,californica,californica,334017,5/19/87,USA,California,Monterey Co,Bradley, 10 km W
-A_californica_334019,35.858,-120.891,californica,californica,334019,5/20/87,USA,California,Monterey Co,Bradley, 10 km W
-A_californica_342037,32.681,-116.614,californica,obscura,342037,3/11/88,USA,California,San Diego Co,Potrero, 5 mi N
-A_californica_342048,34.344,-116.789,californica,obscura,342048,3/13/88,USA,California,San Bernardino Co,Big Bear City, 6 mi N, 1 mi E
-A_californica_342050,34.344,-116.789,californica,obscura,342050,3/13/88,USA,California,San Bernardino Co,Big Bear City, 6 mi N, 1 mi E
-A_californica_342066,33.269,-116.784,californica,obscura,342066,3/17/88,USA,California,San Diego Co,Love Valley, 2 mi NW Lake Henshaw
-A_californica_342072,33.269,-116.784,californica,obscura,342072,3/17/88,USA,California,San Diego Co,Love Valley, 2 mi NW Lake Henshaw
-A_californica_343428,32,-116.1333333,californica,obscura,343428,2/11/89,Mexico,Baja California Norte,,La Rosa de Castilla
-A_californica_343430,32,-116.1333333,californica,obscura,343430,2/12/89,Mexico,Baja California Norte,,La Rosa de Castilla
-A_californica_343432,32,-116.1333333,californica,obscura,343432,2/12/89,Mexico,Baja California Norte,,La Rosa de Castilla
-A_californica_343438,24.78333333,-112.1,californica,hypoleuca,343438,2/19/89,Mexico,Baja California Sur,,Bahia Magdalena, 2 km E, 1 km N Puerto San Carlos
-A_californica_343451,23,-110.1166667,californica,hypoleuca,343451,2/23/89,Mexico,Baja California Sur,,La Burrera, 6 km N, 18 km E, Todos Santos
-A_californica_393615,23.5,-110.1166667,californica,hypoleuca,393615,2/22/89,Mexico,Baja California Sur,,La Burrera, Sierra de la Laguna, 18 km E Todos Santos
-A_californica_393721,24.78333333,-112.1,californica,hypoleuca,393721,2/19/89,Mexico,Baja California Sur,,Bahia Magdalena, 2 km E, 1 km N Puerto San Carlos
-A_coerulescens_396251,27.187,-81.28,coerulescens,coerulescens,396251,1986,USA,Florida,,
-A_coerulescens_396254,27.187,-81.28,coerulescens,coerulescens,396254,1986,USA,Florida,,
-A_coerulescens_396256,27.187,-81.28,coerulescens,coerulescens,396256,1986,USA,Florida,,
-A_coerulescens_396263,27.187,-81.28,coerulescens,coerulescens,396263,1987,USA,Florida,,
-A_coerulescens_396264,27.187,-81.28,coerulescens,coerulescens,396264,1987,USA,Florida,,
-A_coerulescens_396265,27.187,-81.28,coerulescens,coerulescens,396265,1987,USA,Florida,,
-A_insularis_334025,34.024,-119.783,insularis,insularis,334025,5/16/87,USA,California,Santa Barbara Co,Santa Cruz Id., 5.5 mi W Prisoners' Harbor
-A_insularis_334029,34.024,-119.783,insularis,insularis,334029,5/16/87,USA,California,Santa Barbara Co,Santa Cruz Id., 5.5 mi W Prisoners' Harbor
-A_insularis_334031,34.024,-119.783,insularis,insularis,334031,5/16/87,USA,California,Santa Barbara Co,Santa Cruz Id., 5.5 mi W Prisoners' Harbor
-A_insularis_334032,34.024,-119.783,insularis,insularis,334032,5/16/87,USA,California,Santa Barbara Co,Santa Cruz Id., 5.5 mi W Prisoners' Harbor
-A_insularis_334033,34.024,-119.783,insularis,insularis,334033,5/16/87,USA,California,Santa Barbara Co,Santa Cruz Id., 5.5 mi W Prisoners' Harbor
-A_insularis_334034,34.024,-119.783,insularis,insularis,334034,5/16/87,USA,California,Santa Barbara Co,Santa Cruz Id., 5.5 mi W Prisoners' Harbor
-A_insularis_334037,34.024,-119.783,insularis,insularis,334037,5/16/87,USA,California,Santa Barbara Co,Santa Cruz Id., 5.5 mi W Prisoners' Harbor
-A_insularis_334038,34.024,-119.783,insularis,insularis,334038,5/16/87,USA,California,Santa Barbara Co,Santa Cruz Id., 5.5 mi W Prisoners' Harbor
-A_sumichrasti_343502,16.942,-96.156,sumichrasti,sumichrasti,343502,5/8/89,Mexico,Oaxaca,,San Lorenzo de Abarrados, 5 km E
-A_sumichrasti_343503,16.942,-96.156,sumichrasti,sumichrasti,343503,5/8/89,Mexico,Oaxaca,,San Lorenzo de Abarrados, 5 km E
-A_sumichrasti_343510,17,-99.65,sumichrasti,remota,343510,4/26/89,Mexico,Guerrero,,Xocomanatlan, 1 km W
-A_sumichrasti_343511,17,-99.65,sumichrasti,remota,343511,4/26/89,Mexico,Guerrero,,Xocomanatlan, 1 km W
-A_sumichrasti_343512,17,-99.65,sumichrasti,remota,343512,4/26/89,Mexico,Guerrero,,Xocomanatlan, 1 km W
-A_sumichrasti_343514,17,-99.65,sumichrasti,remota,343514,4/27/89,Mexico,Guerrero,,Xocomanatlan, 1 km W
-A_sumichrasti_343515,17,-99.65,sumichrasti,remota,343515,4/27/89,Mexico,Guerrero,,Xocomanatlan, 1 km W
-A_sumichrasti_393635,16.942,-96.156,sumichrasti,sumichrasti,393635,5/9/89,Mexico,Oaxaca,,San Lorenzo de Abarrados
-A_sumichrasti_393638,16.942,-96.156,sumichrasti,sumichrasti,393638,5/9/89,Mexico,Oaxaca,,San Lorenzo de Abarrados
-A_sumichrasti_393640,16.942,-96.156,sumichrasti,sumichrasti,393640,5/9/89,Mexico,Oaxaca,,San Lorenzo de Abarrados
-A_woodhouseii_334171,30.5924103,-104.1277313,woodhouseii,woodhouseii,334171,4/11/87,USA,Texas,Jeff Davis Co,Fort Davis, 14 mi W
-A_woodhouseii_334062,34.9369969,-112.2460146,woodhouseii,nevadae,334062,4/26/87,USA,Arizona,Yavapai Co,Drake, 8 mi ESE
-A_woodhouseii_334063,34.9369969,-112.2460146,woodhouseii,nevadae,334063,4/26/87,USA,Arizona,Yavapai Co,Drake, 8 mi ESE
-A_woodhouseii_334086,36.2499844,-115.62883,woodhouseii,nevadae,334086,4/30/87,USA,Nevada,Clark Co,Mt Charleston, 4 mi ESE
-A_woodhouseii_334088,36.2499844,-115.62883,woodhouseii,nevadae,334088,4/30/87,USA,Nevada,Clark Co,Mt Charleston, 4 mi ESE
-A_woodhouseii_334096,36.2499844,-115.62883,woodhouseii,nevadae,334096,4/29/87,USA,Nevada,Clark Co,Mt Charleston, 4 mi ESE
-A_woodhouseii_334132,37.2873,-118.1285,woodhouseii,nevadae,334132,6/18/87,USA,California,Inyo Co,White Mts, 2 km S, 1 km W Westgard Pass
-A_woodhouseii_334133,37.2873,-118.1285,woodhouseii,nevadae,334133,6/18/87,USA,California,Inyo Co,White Mts, 2 km S, 1 km W Westgard Pass
-A_woodhouseii_334134,37.2873,-118.1285,woodhouseii,nevadae,334134,6/19/87,USA,California,Inyo Co,White Mts, 2 km S, 1 km W Westgard Pass
-A_woodhouseii_334142,40.3697149,-112.5477306,woodhouseii,nevadae,334142,7/2/87,USA,Utah,Tooele Co,Stansbury Mts, 5 mi W, 1 mi N St John
-A_woodhouseii_334153,40.3697149,-112.5477306,woodhouseii,nevadae,334153,7/4/87,USA,Utah,Tooele Co,Stansbury Mts, 5 mi W, 1 mi N St John
-A_woodhouseii_334161,30.5924103,-104.1277313,woodhouseii,woodhouseii,334161,4/12/87,USA,Texas,Jeff Davis Co,Fort Davis, 14 mi W
-A_woodhouseii_334188,34.6467247,-106.5303884,woodhouseii,woodhouseii,334188,4/17/87,USA,New Mexico,Valencia Co,Manzano, 7 mi W
-A_woodhouseii_334190,34.6467247,-106.5303884,woodhouseii,woodhouseii,334190,4/17/87,USA,New Mexico,Valencia Co,Manzano, 7 mi W
-A_woodhouseii_334196,34.6467247,-106.5303884,woodhouseii,woodhouseii,334196,4/16/87,USA,New Mexico,Valencia Co,Manzano, 7 mi W
-A_woodhouseii_334210,37.9,-105.102,woodhouseii,woodhouseii,334210,7/18/87,USA,Colorado,Huerfano Co,Gardner, 7 mi N, 3 mi E
-A_woodhouseii_334211,37.9,-105.102,woodhouseii,woodhouseii,334211,7/19/87,USA,Colorado,Huerfano Co,Gardner, 7 mi N, 3 mi E
-A_woodhouseii_334217,37.9,-105.102,woodhouseii,woodhouseii,334217,7/18/87,USA,Colorado,Huerfano Co,Gardner, 7 mi N, 3 mi E
-A_woodhouseii_334230,29.7935495,-100.7409275,woodhouseii,texana,334230,4/5/87,USA,Texas,Val Verde Co,Carta Valley, 2 mi W
-A_woodhouseii_334241,29.8382615,-100.6790543,woodhouseii,texana,334241,4/7/87,USA,Texas,Edwards Co,Carta Valley, 3 mi N
-A_woodhouseii_334242,29.8382615,-100.6790543,woodhouseii,texana,334242,4/8/87,USA,Texas,Edwards Co,Carta Valley, 3 mi N
-A_woodhouseii_334243,29.8382615,-100.6790543,woodhouseii,texana,334243,4/8/87,USA,Texas,Edwards Co,Carta Valley, 3 mi N
-A_woodhouseii_334244,29.8382615,-100.6790543,woodhouseii,texana,334244,4/8/87,USA,Texas,Edwards Co,Carta Valley, 3 mi N
-A_woodhouseii_334247,29.8382615,-100.6790543,woodhouseii,texana,334247,4/8/87,USA,Texas,Edwards Co,Carta Valley, 3 mi N
-A_woodhouseii_334250,29.8382615,-100.6790543,woodhouseii,texana,334250,4/7/87,USA,Texas,Edwards Co,Carta Valley, 3 mi N
-A_woodhouseii_343458,21.45,-101.9166667,woodhouseii,grisea,343458,1/25/89,Mexico,Jalisco,,Rancho Santa Rita, 9 km N Lagos de Moreno
-A_woodhouseii_343461,21.45,-101.9166667,woodhouseii,grisea,343461,1/26/89,Mexico,Jalisco,,Rancho Santa Rita, 9 km N Lagos de Moreno
-A_woodhouseii_343476,26.48,-105.478,woodhouseii,grisea,343476,2/4/89,Mexico,Durango,,Villa Ocampo, 3 km N, 2 km E
-A_woodhouseii_343480,25,-100.8666667,woodhouseii,cyanotis,343480,12/16/88,Mexico,Coahuila,,El Diamante Pass, 12 km E, 6 km S, Saltillo
-A_woodhouseii_343481,25,-100.8666667,woodhouseii,cyanotis,343481,12/16/88,Mexico,Coahuila,,El Diamante Pass, 12 km E, 6 km S, Saltillo
-A_woodhouseii_343483,25,-100.8666667,woodhouseii,cyanotis,343483,12/16/88,Mexico,Coahuila,,El Diamante Pass, 12 km E, 6 km S, Saltillo
-A_woodhouseii_343497,21.851,-101.011,woodhouseii,cyanotis,343497,1/23/89,Mexico,San Luis Potosi,,Bledos, 2 km N, 3 km W
-A_woodhouseii_393605,25.36666667,-100.8666667,woodhouseii,cyanotis,393605,12/16/88,Mexico,Coahuila,,El Diamante Pass, 12 km E, 6 km S Saltillo
-A_woodhouseii_393606,25.36666667,-100.8666667,woodhouseii,cyanotis,393606,12/16/88,Mexico,Coahuila,,El Diamante Pass, 12 km E, 6 km S Saltillo
-A_woodhouseii_393697,21.851,-101.011,woodhouseii,cyanotis,393697,1/22/89,Mexico,San Luis Potosi,,Bledos, 2 km N, 3 km W
-A_woodhouseii_393698,21.851,-101.011,woodhouseii,cyanotis,393698,1/22/89,Mexico,San Luis Potosi,,Bledos, 2 km N, 3 km W
-A_woodhouseii_393702,21.36666667,-101.8333333,woodhouseii,grisea,393702,1/24/89,Mexico,Jalisco,,Lagos de Moreno, 10 km E
-A_woodhouseii_393712,26.48,-105.478,woodhouseii,grisea,393712,2/3/89,Mexico,Durango,,Villa Ocampo, 3 km N, 2 km E
-A_woodhouseii_393713,26.48,-105.478,woodhouseii,grisea,393713,2/3/89,Mexico,Durango,,Villa Ocampo, 3 km N, 2 km E
-A_woodhouseii_395768,21.851,-101.011,woodhouseii,cyanotis,395768,1/22/89,Mexico,San Luis Potosi,,Bledos, 2 km N, 3 km W
+id,decimallatitude,decimallongitude,species,subspecies,catalognumber,eventdate,country,stateprovince,number
+A_coerulescens_396251,27.187,-81.28,coerulescens,coerulescens,396251,1986,USA,Florida,26
+A_coerulescens_396254,27.187,-81.28,coerulescens,coerulescens,396254,1986,USA,Florida,26
+A_coerulescens_396256,27.187,-81.28,coerulescens,coerulescens,396256,1986,USA,Florida,26
+A_coerulescens_396263,27.187,-81.28,coerulescens,coerulescens,396263,1987,USA,Florida,26
+A_coerulescens_396264,27.187,-81.28,coerulescens,coerulescens,396264,1987,USA,Florida,26
+A_coerulescens_396265,27.187,-81.28,coerulescens,coerulescens,396265,1987,USA,Florida,26
+A_insularis_334025,34.024,-119.783,insularis,insularis,334025,5/16/87,USA,California,11
+A_insularis_334029,34.024,-119.783,insularis,insularis,334029,5/16/87,USA,California,11
+A_insularis_334031,34.024,-119.783,insularis,insularis,334031,5/16/87,USA,California,11
+A_insularis_334032,34.024,-119.783,insularis,insularis,334032,5/16/87,USA,California,11
+A_insularis_334033,34.024,-119.783,insularis,insularis,334033,5/16/87,USA,California,11
+A_insularis_334034,34.024,-119.783,insularis,insularis,334034,5/16/87,USA,California,11
+A_insularis_334037,34.024,-119.783,insularis,insularis,334037,5/16/87,USA,California,11
+A_insularis_334038,34.024,-119.783,insularis,insularis,334038,5/16/87,USA,California,11
+A_californica_333849,44.1459603,-122.5697929,californica,immanis,333849,6/6/87,USA,Oregon,10
+A_californica_333854,44.1459603,-122.5697929,californica,immanis,333854,6/6/87,USA,Oregon,10
+A_californica_333855,44.1459603,-122.5697929,californica,immanis,333855,6/5/87,USA,Oregon,10
+A_californica_333857,44.1459603,-122.5697929,californica,immanis,333857,6/6/87,USA,Oregon,10
+A_californica_333860,44.1459603,-122.5697929,californica,immanis,333860,6/6/87,USA,Oregon,10
+A_californica_333862,40.5959797,-123.012249,californica,caurina,333862,5/31/87,USA,California,8
+A_californica_333871,40.5959797,-123.012249,californica,caurina,333871,6/2/87,USA,California,8
+A_californica_333873,40.5959797,-123.012249,californica,caurina,333873,6/2/87,USA,California,8
+A_californica_333874,40.5959797,-123.012249,californica,caurina,333874,6/2/87,USA,California,8
+A_californica_333914,37.802,-122.031,californica,oocleptica,333914,5/25/87,USA,California,7
+A_californica_333917,37.802,-122.031,californica,oocleptica,333917,5/28/87,USA,California,7
+A_californica_333931,41.5512538,-120.6264166,californica,oocleptica,333931,6/9/87,USA,California,9
+A_californica_333932,41.5512538,-120.6264166,californica,oocleptica,333932,6/9/87,USA,California,9
+A_californica_333934,41.5512538,-120.6264166,californica,oocleptica,333934,6/10/87,USA,California,9
+A_californica_334002,35.858,-120.891,californica,californica,334002,5/20/87,USA,California,6
+A_californica_334012,35.858,-120.891,californica,californica,334012,5/20/87,USA,California,6
+A_californica_334015,35.858,-120.891,californica,californica,334015,5/20/87,USA,California,6
+A_californica_334017,35.858,-120.891,californica,californica,334017,5/19/87,USA,California,6
+A_californica_334019,35.858,-120.891,californica,californica,334019,5/20/87,USA,California,6
+A_californica_342037,33.269,-116.784,californica,obscura,342037,3/11/88,USA,California,4
+A_californica_342048,34.344,-116.789,californica,obscura,342048,3/13/88,USA,California,5
+A_californica_342050,34.344,-116.789,californica,obscura,342050,3/13/88,USA,California,5
+A_californica_342066,33.269,-116.784,californica,obscura,342066,3/17/88,USA,California,4
+A_californica_342072,33.269,-116.784,californica,obscura,342072,3/17/88,USA,California,4
+A_californica_343428,32,-116.1333333,californica,obscura,343428,2/11/89,Mexico,Baja California Norte,3
+A_californica_343430,32,-116.1333333,californica,obscura,343430,2/12/89,Mexico,Baja California Norte,3
+A_californica_343432,32,-116.1333333,californica,obscura,343432,2/12/89,Mexico,Baja California Norte,3
+A_californica_343438,24.78333333,-112.1,californica,hypoleuca,343438,2/19/89,Mexico,Baja California Sur,2
+A_californica_343451,23.5,-110.1166667,californica,hypoleuca,343451,2/23/89,Mexico,Baja California Sur,1
+A_californica_393615,23.5,-110.1166667,californica,hypoleuca,393615,2/22/89,Mexico,Baja California Sur,1
+A_californica_393721,24.78333333,-112.1,californica,hypoleuca,393721,2/19/89,Mexico,Baja California Sur,2
+A_woodhouseii_334062,34.9369969,-112.2460146,woodhouseii,nevadae,334062,4/26/87,USA,Arizona,14
+A_woodhouseii_334063,34.9369969,-112.2460146,woodhouseii,nevadae,334063,4/26/87,USA,Arizona,14
+A_woodhouseii_334086,36.2499844,-115.62883,woodhouseii,nevadae,334086,4/30/87,USA,Nevada,13
+A_woodhouseii_334088,36.2499844,-115.62883,woodhouseii,nevadae,334088,4/30/87,USA,Nevada,13
+A_woodhouseii_334096,36.2499844,-115.62883,woodhouseii,nevadae,334096,4/29/87,USA,Nevada,13
+A_woodhouseii_334132,37.2873,-118.1285,woodhouseii,nevadae,334132,6/18/87,USA,California,12
+A_woodhouseii_334133,37.2873,-118.1285,woodhouseii,nevadae,334133,6/18/87,USA,California,12
+A_woodhouseii_334134,37.2873,-118.1285,woodhouseii,nevadae,334134,6/19/87,USA,California,12
+A_woodhouseii_334142,40.3697149,-112.5477306,woodhouseii,nevadae,334142,7/2/87,USA,Utah,15
+A_woodhouseii_334153,40.3697149,-112.5477306,woodhouseii,nevadae,334153,7/4/87,USA,Utah,15
+A_woodhouseii_334161,30.5924103,-104.1277313,woodhouseii,woodhouseii,334161,4/12/87,USA,Texas,18
+A_woodhouseii_334188,34.6467247,-106.5303884,woodhouseii,woodhouseii,334188,4/17/87,USA,New Mexico,17
+A_woodhouseii_334190,34.6467247,-106.5303884,woodhouseii,woodhouseii,334190,4/17/87,USA,New Mexico,17
+A_woodhouseii_334196,34.6467247,-106.5303884,woodhouseii,woodhouseii,334196,4/16/87,USA,New Mexico,17
+A_woodhouseii_334210,37.9,-105.102,woodhouseii,woodhouseii,334210,7/18/87,USA,Colorado,16
+A_woodhouseii_334211,37.9,-105.102,woodhouseii,woodhouseii,334211,7/19/87,USA,Colorado,16
+A_woodhouseii_334217,37.9,-105.102,woodhouseii,woodhouseii,334217,7/18/87,USA,Colorado,16
+A_woodhouseii_343458,21.45,-101.9166667,woodhouseii,grisea,343458,1/25/89,Mexico,Jalisco,23
+A_woodhouseii_343461,21.45,-101.9166667,woodhouseii,grisea,343461,1/26/89,Mexico,Jalisco,23
+A_woodhouseii_343476,26.48,-105.478,woodhouseii,grisea,343476,2/4/89,Mexico,Durango,20
+A_woodhouseii_343480,25,-100.8666667,woodhouseii,cyanotis,343480,12/16/88,Mexico,Coahuila,21
+A_woodhouseii_343481,25,-100.8666667,woodhouseii,cyanotis,343481,12/16/88,Mexico,Coahuila,21
+A_woodhouseii_343483,25,-100.8666667,woodhouseii,cyanotis,343483,12/16/88,Mexico,Coahuila,21
+A_woodhouseii_343497,21.851,-101.011,woodhouseii,cyanotis,343497,1/23/89,Mexico,San Luis Potosi,22
+A_woodhouseii_393605,25,-100.8666667,woodhouseii,cyanotis,393605,12/16/88,Mexico,Coahuila,21
+A_woodhouseii_393606,25,-100.8666667,woodhouseii,cyanotis,393606,12/16/88,Mexico,Coahuila,21
+A_woodhouseii_393697,21.851,-101.011,woodhouseii,cyanotis,393697,1/22/89,Mexico,San Luis Potosi,22
+A_woodhouseii_393698,21.851,-101.011,woodhouseii,cyanotis,393698,1/22/89,Mexico,San Luis Potosi,22
+A_woodhouseii_393702,21.45,-101.9166667,woodhouseii,grisea,393702,1/24/89,Mexico,Jalisco,23
+A_woodhouseii_393712,26.48,-105.478,woodhouseii,grisea,393712,2/3/89,Mexico,Durango,20
+A_woodhouseii_393713,26.48,-105.478,woodhouseii,grisea,393713,2/3/89,Mexico,Durango,20
+A_woodhouseii_395768,21.851,-101.011,woodhouseii,cyanotis,395768,1/22/89,Mexico,San Luis Potosi,22
+A_woodhouseii_334171,30.5924103,-104.1277313,woodhouseii,woodhouseii,334171,4/11/87,USA,Texas,18
+A_woodhouseii_334230,29.8382615,-100.6790543,texana,texana,334230,4/5/87,USA,Texas,19
+A_woodhouseii_334241,29.8382615,-100.6790543,texana,texana,334241,4/7/87,USA,Texas,19
+A_woodhouseii_334242,29.8382615,-100.6790543,texana,texana,334242,4/8/87,USA,Texas,19
+A_woodhouseii_334243,29.8382615,-100.6790543,texana,texana,334243,4/8/87,USA,Texas,19
+A_woodhouseii_334244,29.8382615,-100.6790543,texana,texana,334244,4/8/87,USA,Texas,19
+A_woodhouseii_334247,29.8382615,-100.6790543,texana,texana,334247,4/8/87,USA,Texas,19
+A_woodhouseii_334250,29.8382615,-100.6790543,texana,texana,334250,4/7/87,USA,Texas,19
+A_sumichrasti_343502,16.942,-96.156,sumichrasti,sumichrasti,343502,5/8/89,Mexico,Oaxaca,25
+A_sumichrasti_343503,16.942,-96.156,sumichrasti,sumichrasti,343503,5/8/89,Mexico,Oaxaca,25
+A_sumichrasti_343510,17,-99.65,sumichrasti,remota,343510,4/26/89,Mexico,Guerrero,24
+A_sumichrasti_343511,17,-99.65,sumichrasti,remota,343511,4/26/89,Mexico,Guerrero,24
+A_sumichrasti_343512,17,-99.65,sumichrasti,remota,343512,4/26/89,Mexico,Guerrero,24
+A_sumichrasti_343514,17,-99.65,sumichrasti,remota,343514,4/27/89,Mexico,Guerrero,24
+A_sumichrasti_343515,17,-99.65,sumichrasti,remota,343515,4/27/89,Mexico,Guerrero,24
+A_sumichrasti_393635,16.942,-96.156,sumichrasti,sumichrasti,393635,5/9/89,Mexico,Oaxaca,25
+A_sumichrasti_393638,16.942,-96.156,sumichrasti,sumichrasti,393638,5/9/89,Mexico,Oaxaca,25
+A_sumichrasti_393640,16.942,-96.156,sumichrasti,sumichrasti,393640,5/9/89,Mexico,Oaxaca,25

@@ -1,0 +1,29 @@
+PLINK v1.90b6.21 64-bit (19 Oct 2020)
+Options in effect:
+  --allow-extra-chr
+  --double-id
+  --make-bed
+  --out binary_fileset
+  --vcf /home/d669d153/work/aph.rad/woodhouse.admixture/woodhouse.only.vcf
+
+Hostname: r20r18n03
+Working directory: /panfs/pfs.local/work/bi/d669d153/aph.rad/woodhouse.admixture
+Start time: Wed Jun 30 16:15:15 2021
+
+Random number seed: 1625087715
+515892 MB RAM detected; reserving 257946 MB for main workspace.
+--vcf: binary_fileset-temporary.bed + binary_fileset-temporary.bim +
+binary_fileset-temporary.fam written.
+1278 variants loaded from .bim file.
+40 people (0 males, 0 females, 40 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to binary_fileset.nosex .
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 40 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.927015.
+1278 variants and 40 people pass filters and QC.
+Note: No phenotypes present.
+--make-bed to binary_fileset.bed + binary_fileset.bim + binary_fileset.fam ...
+done.
+
+End time: Wed Jun 30 16:15:15 2021
