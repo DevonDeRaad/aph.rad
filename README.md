@@ -54,6 +54,10 @@ Visualizations of pop-gen approaches to species delimitation and identifying int
 *   The machine learning based species delimitation approach we followed can be viewed step by step with visualizations here:
     > <https://devonderaad.github.io/aph.rad/ml.species.delim/ml.species.delimitation.html>
 
+### Admixture
+*   Each of the different K value iterations (1-10) for the full dataset and the reduced portion of Woodhouse's Scrub-Jay with nested structure, can be viewed here:
+    > <https://devonderaad.github.io/aph.rad/admixture/plot.admixture.results.html>
+
 ### Dsuite
 *   Code to perform ABBA/BABA tests, calculate f4 statistics, and visualize f-branch statistics on guidetree (following tutorial outlined here: <https://github.com/millanek/Dsuite>), as well as all output files can be found here:
     > <https://github.com/DevonDeRaad/aph.rad/tree/master/dsuite>
